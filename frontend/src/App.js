@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Spinner from './Spinner';
+import {
+  Route,
+  Switch
+} from 'react-router-dom';
+import {
+  TheHome,
+  TheDashboard,
+  TheLogin
+} from './services/route'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Suspense fallback={<Spinner />}>
+      <Switch>
+        <Route exact path="/login" name="Login Page" component={TheLogin} />
+        <Route exact path="/" name="Home" component={TheHome} />
+        <Route exact path="/dashboard" name="Dashboard" component={TheDashboard} />
+      </Switch>
+    </React.Suspense>
   );
 }
 

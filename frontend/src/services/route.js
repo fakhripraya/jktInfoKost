@@ -1,0 +1,33 @@
+import React from 'react';
+
+// Containers
+const TheHome = React.lazy(() => {
+    return Promise.all([
+        import('../pages/home'),
+        new Promise(resolve => setTimeout(resolve, 0))
+    ])
+        .then(([moduleExports]) => moduleExports);
+});
+
+const TheDashboard = React.lazy(() => {
+    return Promise.all([
+        import('../pages/dashboard'),
+        new Promise(resolve => setTimeout(resolve, 0))
+    ])
+        .then(([moduleExports]) => moduleExports);
+});
+
+// Pages
+const TheLogin = React.lazy(() => {
+    return Promise.all([
+        import('../pages/login'),
+        new Promise(resolve => setTimeout(resolve, 0))
+    ])
+        .then(([moduleExports]) => moduleExports);
+});
+
+export {
+    TheHome,
+    TheDashboard,
+    TheLogin
+}
