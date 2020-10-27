@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Containers
 const TheHome = React.lazy(() => {
     return Promise.all([
         import('../pages/home'),
@@ -17,7 +16,6 @@ const TheDashboard = React.lazy(() => {
         .then(([moduleExports]) => moduleExports);
 });
 
-// Pages
 const TheLogin = React.lazy(() => {
     return Promise.all([
         import('../pages/login'),
@@ -26,8 +24,17 @@ const TheLogin = React.lazy(() => {
         .then(([moduleExports]) => moduleExports);
 });
 
+const TheRegister = React.lazy(() => {
+    return Promise.all([
+        import('../pages/register'),
+        new Promise(resolve => setTimeout(resolve, 0))
+    ])
+        .then(([moduleExports]) => moduleExports);
+});
+
 export {
     TheHome,
     TheDashboard,
-    TheLogin
+    TheLogin,
+    TheRegister
 }

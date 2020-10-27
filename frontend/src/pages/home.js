@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Navbar from '../homeComponents/Navbar'
+import MainBody from '../homeComponents/Main/MainBody'
+import Footer from '../homeComponents/Footer'
+
 function home() {
     return (
-        <div>
+        <Fragment>
             <Navbar />
-        </div>
+            <MainBody />
+            <Footer />
+        </Fragment>
     )
 }
 

@@ -1,11 +1,10 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-
+import LogoIcon from '../../images/Papi_Kost_3.png'
 
 export const Nav = styled.nav`
-    background: #000;
+    background: #fff;
     height: 80px;
-    /* margin-top: -80px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,26 +25,32 @@ export const NavbarContainer = styled.div`
     z-index: 1;
     width: 100%;
     padding: 0 24px;
-    max-width: 1100px;
+    max-width: 2000px;
 `
 
 export const NavLogo = styled(Link)`
-    color: #fff;
     justify-self: flex-start;
     cursor: pointer;
-    font-size: 1.5rem;
     display: flex;
     align-items: center;
     margin-left: 24px;
     font-weight: bold;
     text-decoration: none;
+    max-width: 230px;
 `
+
+export const NavLogoImg = styled.img`
+    width: 100%;
+`
+NavLogoImg.defaultProps = {
+    src: LogoIcon,
+};
 
 export const MobileIcon = styled.div`
     display:none;
 
     @media screen and (max-width: 768px){
-        color: #fff;
+        color: #000;
         display: block;
         position: absolute;
         top: 0;
@@ -61,7 +66,7 @@ export const NavMenu = styled.ul`
     align-items: center;
     list-style: none;
     text-align: center;
-    margin-right: -22px;
+    margin-right: 50px;
 
     @media screen and (max-width: 768px){
         display: none;
@@ -72,54 +77,21 @@ export const NavItem = styled.li`
     height: 80px;
 `
 
-export const NavLinks = styled(Link)`
-    color: #fff;
+export const NavLinks = styled.a`
+    color: #000;
     display: flex;
     align-items: center;
     text-decoration: none;
     padding: 0 1rem;
     height: 100%;
+    font-size: 1.25rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-
+    
     &:hover{
         transition: all 0.2s ease-in-out;
-        border-bottom: 5px solid #01bf71;
-    }
-`
-
-export const NavbarDropdownContent = styled.div`
-    display: none;
-    position: absolute;
-    background-color: #01bf71;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0, 2);
-    border-radius: 3px;
-    padding: 15px 16px;
-    z-index: 1;
-    transform: translate(-25%, 125%);
-  `
-
-export const NavLinksDropdown = styled.div`
-    color: #fff;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    padding: 0 1rem;
-    height: 100%;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    >div {
-                display: none;
-            }
-
-    &:hover{
-        transition: all 0.2s ease-in-out;
-        border-bottom: 5px solid #01bf71;
-    }
-
-    &:hover ${NavbarDropdownContent}{
-        display: block;
+        color: #33c9ff;
+        border-bottom: 5px solid #33C9FF;
     }
 `
 
@@ -134,11 +106,47 @@ export const NavBtn = styled.nav`
 
 export const NavBtnLink = styled(Link)`
     border-radius: 50px;
-    background: #01bf71;
+    background: #33c9ff;
     white-space: nowrap;
     padding: 10px 22px;
     margin: 0 5px;
-    color: #010606;
+    color: #fff;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+
+    &:hover{
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+        color: #33c9ff;
+    }
+`
+
+export const DrawerWrapper = styled.div`
+    display: none;
+
+    @media screen and (max-width: 768px){
+        display: contents;
+    }
+`
+
+export const NavBtnMobile = styled.nav`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 16px;
+`
+
+export const NavBtnLinkMobile = styled(Link)`
+    border-radius: 50px;
+    background: #33c9ff;
+    white-space: nowrap;
+    padding: 10px 22px;
+    margin: 5px 5px;
+    color: #fff;
     font-size: 16px;
     outline: none;
     border: none;
@@ -149,6 +157,6 @@ export const NavBtnLink = styled(Link)`
     &:hover{
         transition: all 0.2s ease-in-out;
         background: #fff;
-        color: #010606;
+        color: #33c9ff;
     }
 `
