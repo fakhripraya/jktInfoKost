@@ -86,10 +86,18 @@ export const NavLinks = styled.a`
     height: 100%;
     font-size: 1.25rem;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s ease-in-out;
     
+    @media screen and (max-width: 1247px){
+        font-size: 1rem;
+    }
+
+    @media screen and (max-width: 1144px){
+        font-size: 0.75rem;
+    }
+
     &:hover{
-        transition: all 0.2s ease-in-out;
+        transition: all 0.1s ease-in-out;
         color: #33c9ff;
         border-bottom: 5px solid #33C9FF;
     }
