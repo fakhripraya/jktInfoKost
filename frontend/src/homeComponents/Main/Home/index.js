@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import firstIcon from './images/svg-4.svg'
+import secondIcon from './images/svg-5.svg'
+import thirdIcon from './images/svg-6.svg'
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormControl from "@material-ui/core/FormControl";
+import SearchIcon from '@material-ui/icons/Search';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import Slider from "react-slick";
 import {
     HeroWrapper,
     CarouselItemWrapper,
@@ -12,24 +24,74 @@ import {
     HeroIcon,
     HeroH1,
     HeroP,
-    HeroSearchWrapper
+    HeroSearchWrapper,
+    InfoContainer,
+    InfoWrapper,
+    InfoRow,
+    FirstColumn,
+    SecondColumn,
+    TextWrapper,
+    TopLine,
+    Heading,
+    Subtitle,
+    BtnWrap,
+    ImgWrap,
+    Img,
+    CustomButton,
+    CategoryContainer,
+    CategoryWrapper,
+    CategoryCard,
+    CategoryIcon,
+    CategoryH1,
+    CategoryH2Cont,
+    CategoryH2,
+    CategoryP,
+    RekomendasiContainer,
+    RekomendasiHeader,
+    LeftSideWrapper,
+    RightSideWrapper,
 } from './HomeElements'
-import { makeStyles } from "@material-ui/core/styles";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
-import SearchIcon from '@material-ui/icons/Search';
 import Carousel from 'react-material-ui-carousel'
 import Video from '../../../images/heroBg.png'
-import img from '../../../images/Papi_Kost_4.png'
-import Button from '@material-ui/core/Button';
+import iconImg from '../../../images/Papi_Kost_4.png'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 const useStyles = makeStyles((theme) => ({
     searchBar: {
         margin: theme.spacing(1),
         background: 'white'
-    }
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 300,
+        maxWidth: 300,
+    },
 }));
+
+const state = {
+    slideIndex: 0,
+    updateCount: 0
+};
+
+const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    beforeChange: (current, next) => this.setState({ slideIndex: next })
+};
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
 
 function SlidingImages(props) {
     return (
@@ -41,8 +103,20 @@ function SlidingImages(props) {
     )
 }
 
-function Index() {
+function Index({
+    lightBg,
+    id,
+    imgStart,
+    topLine,
+    lightText,
+    headLine,
+    darkText,
+    description,
+    buttonLabel,
+    img,
+    alt }) {
     const classes = useStyles();
+    const theme = useTheme();
     const [values, setValues] = useState({
         amount: "",
         password: "",
@@ -50,6 +124,7 @@ function Index() {
         weightRange: "",
         showPassword: false
     });
+    const [personName, setPersonName] = useState([]);
 
     let imageSlide = [
         {
@@ -85,23 +160,48 @@ function Index() {
                 url_3: require('./images/slider-img-1.png'),
             }
         }
-    ]
+    ];
+
+    const names = [
+        'Oliver Hansen',
+        'Van Henry',
+        'April Tucker',
+        'Ralph Hubbard',
+        'Omar Alexander',
+        'Carlos Abbott',
+        'Miriam Wagner',
+        'Bradley Wilkerson',
+        'Virginia Andrews',
+        'Kelly Snyder',
+    ];
+
+    function getStyles(name, personName, theme) {
+        return {
+            fontWeight:
+                personName.indexOf(name) === -1
+                    ? theme.typography.fontWeightRegular
+                    : theme.typography.fontWeightMedium,
+        };
+    }
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
 
+    const handleChangeDropdown = (event) => {
+        setPersonName(event.target.value);
+    };
+
     return (
         <React.Fragment>
-            <CssBaseline />
-            <Container maxWidth="xl">
+            <Container style={{ backgroundColor: 'white' }}>
                 <Box component="section">
                     <HeroWrapper>
                         <HeroBgWrapper>
                             <HeroBg alt="image" src={Video} />
                         </HeroBgWrapper>
                         <HeroContent>
-                            <HeroIcon alt="a" src={img} />
+                            <HeroIcon alt="a" src={iconImg} />
                             <HeroH1>Bingung Cari Kosan?</HeroH1>
                             <HeroP>Sini papi bantuin cari</HeroP>
                             <HeroSearchWrapper>
@@ -114,15 +214,9 @@ function Index() {
                                         startAdornment={<InputAdornment position="start"><SearchIcon /></InputAdornment>}
                                         endAdornment={
                                             <InputAdornment position="start">
-                                                <Button style={{
-                                                    color: 'white',
-                                                    backgroundColor: "#33c9ff",
-                                                    borderRadius: 50
-                                                }} variant="contained">
-                                                    Cari
-                                                </Button>
+                                                <CustomButton to="/login">Cari</CustomButton>
                                             </InputAdornment>}
-                                        placeholder="Masukkan Area Yang Dicari"
+                                        placeholder="Masukkan Kata Kunci Pencarian"
                                     />
                                 </FormControl>
                             </HeroSearchWrapper>
@@ -135,6 +229,103 @@ function Index() {
                             <SlidingImages key={index} image={image} />
                         ))}
                     </Carousel>
+                </Box>
+                <Box component="section">
+                    <InfoContainer lightBg={lightBg} id={id}>
+                        <InfoWrapper>
+                            <InfoRow imgStart={imgStart}>
+                                <FirstColumn>
+                                    <TextWrapper>
+                                        <TopLine>{topLine}</TopLine>
+                                        <Heading lightText={lightText}>{headLine}</Heading>
+                                        <Subtitle darkText={darkText}>{description}</Subtitle>
+                                        <BtnWrap>
+                                            <CustomButton to="/login">{buttonLabel}</CustomButton>
+                                        </BtnWrap>
+                                    </TextWrapper>
+                                </FirstColumn>
+                                <SecondColumn>
+                                    <ImgWrap>
+                                        <Img src={img} alt={alt} />
+                                    </ImgWrap>
+                                </SecondColumn>
+                            </InfoRow>
+                        </InfoWrapper>
+                    </InfoContainer>
+                </Box>
+            </Container>
+            <CategoryContainer>
+                <CategoryH1>Kategori</CategoryH1>
+                <CategoryH2Cont>Cari pilihan anda sesuai kategori</CategoryH2Cont>
+                <CategoryWrapper>
+                    <CategoryCard>
+                        <CategoryIcon src={firstIcon} />
+                        <CategoryH2>Kos-kosan</CategoryH2>
+                        <CategoryP>Cari kos-kosan yang sesuai dengan kriteriamu!</CategoryP>
+                    </CategoryCard>
+                    <CategoryCard>
+                        <CategoryIcon src={secondIcon} />
+                        <CategoryH2>Kontrakan</CategoryH2>
+                        <CategoryP>Kontrakan yang cocok dan cozy untuk kamu!</CategoryP>
+                    </CategoryCard>
+                    <CategoryCard>
+                        <CategoryIcon src={thirdIcon} />
+                        <CategoryH2>Apartemen</CategoryH2>
+                        <CategoryP>Apartemen nyaman dengan kualitas premium!</CategoryP>
+                    </CategoryCard>
+                </CategoryWrapper>
+            </CategoryContainer>
+            <Container style={{ backgroundColor: 'white' }} maxWidth="xl">
+                <Box component="section">
+                    <RekomendasiContainer>
+                        <RekomendasiHeader>
+                            <LeftSideWrapper>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel id="demo-mutiple-name-label">Rekomendasi Kos di</InputLabel>
+                                    <Select
+                                        labelId="demo-mutiple-name-label"
+                                        id="demo-mutiple-name"
+                                        value={personName}
+                                        onChange={handleChangeDropdown}
+                                        input={<Input />}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {names.map((name) => (
+                                            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                                                {name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </LeftSideWrapper>
+                            <RightSideWrapper>
+                                <CustomButton to="/login">Lihat Semua</CustomButton>
+                                <CustomButton to="/login"><FaChevronLeft /></CustomButton>
+                                <CustomButton to="/login"><FaChevronRight /></CustomButton>
+                            </RightSideWrapper>
+                        </RekomendasiHeader>
+                        <input
+                            onChange={e => this.slider.slickGoTo(e.target.value)}
+                            value={state.slideIndex}
+                            type="hidden"
+                            min={0}
+                            max={3}
+                        />
+                        <Slider ref={slider => (this.slider = slider)} {...settings}>
+                            <div>
+                                a
+                            </div>
+                            <div>
+                                b
+                            </div>
+                            <div>
+                                c
+                            </div>
+                            <div>
+                                d
+                            </div>
+                        </Slider>
+                    </RekomendasiContainer>
                 </Box>
                 <Box component="section">
                 </Box>

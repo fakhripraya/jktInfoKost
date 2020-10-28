@@ -3,13 +3,14 @@ import Home from './Home'
 import Sewaan from './Sewaan'
 import Tanah from './Tanah'
 import { useSelector } from 'react-redux'
+import { homeObjOne } from './Home/Data'
 
 function MainBody() {
 
     const pageIndex = useSelector(state => state.homePageDataReducer.pageIndex)
 
     if (pageIndex === 0) {
-        return <Home />;
+        return <Home {...homeObjOne} />;
     }
     else if (pageIndex === 1) {
         return <Tanah />;

@@ -12,6 +12,7 @@ export const Nav = styled.nav`
     position: sticky;
     top: 0;
     z-index: 10;
+    border-bottom: solid 1.1px rgba(0,0,0,0.3);
 
     @media screen and (max-width: 960px) {
         transition: 0.8s all ease;
@@ -49,7 +50,7 @@ NavLogoImg.defaultProps = {
 export const MobileIcon = styled.div`
     display:none;
 
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 1260px){
         color: #000;
         display: block;
         position: absolute;
@@ -68,7 +69,7 @@ export const NavMenu = styled.ul`
     text-align: center;
     margin-right: 50px;
 
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 1260px){
         display: none;
     }
 `
@@ -87,14 +88,6 @@ export const NavLinks = styled.a`
     font-size: 1.25rem;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
-    
-    @media screen and (max-width: 1247px){
-        font-size: 1rem;
-    }
-
-    @media screen and (max-width: 1144px){
-        font-size: 0.75rem;
-    }
 
     &:hover{
         transition: all 0.1s ease-in-out;
@@ -107,7 +100,7 @@ export const NavBtn = styled.nav`
     display: flex;
     align-items: center;
 
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 1260px){
         display: none;
     }
 `
@@ -136,7 +129,7 @@ export const NavBtnLink = styled(Link)`
 export const DrawerWrapper = styled.div`
     display: none;
 
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: 1260px){
         display: contents;
     }
 `
