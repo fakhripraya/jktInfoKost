@@ -222,7 +222,7 @@ export const CustomButton = styled(Link)`
 /*CATEGORY SECTION*/
 
 export const CategoryContainer = styled.div`
-    height: 700px;
+    height: 550px;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import firstIcon from './images/svg-4.svg'
 import secondIcon from './images/svg-5.svg'
 import thirdIcon from './images/svg-6.svg'
@@ -13,7 +13,6 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
-import Slider from "react-slick";
 import {
     HeroWrapper,
     CarouselItemWrapper,
@@ -68,20 +67,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const state = {
-    slideIndex: 0,
-    updateCount: 0
-};
-
-const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    beforeChange: (current, next) => this.setState({ slideIndex: next })
-};
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -117,6 +102,7 @@ function Index({
     alt }) {
     const classes = useStyles();
     const theme = useTheme();
+
     const [values, setValues] = useState({
         amount: "",
         password: "",
@@ -194,7 +180,7 @@ function Index({
 
     return (
         <React.Fragment>
-            <Container style={{ backgroundColor: 'white' }}>
+            <Container style={{ backgroundColor: 'white' }} maxWidth="lg">
                 <Box component="section">
                     <HeroWrapper>
                         <HeroBgWrapper>
@@ -275,7 +261,7 @@ function Index({
                     </CategoryCard>
                 </CategoryWrapper>
             </CategoryContainer>
-            <Container style={{ backgroundColor: 'white' }} maxWidth="xl">
+            <Container style={{ backgroundColor: 'white' }} maxWidth="lg">
                 <Box component="section">
                     <RekomendasiContainer>
                         <RekomendasiHeader>
@@ -304,30 +290,15 @@ function Index({
                                 <CustomButton to="/login"><FaChevronRight /></CustomButton>
                             </RightSideWrapper>
                         </RekomendasiHeader>
-                        <input
-                            onChange={e => this.slider.slickGoTo(e.target.value)}
-                            value={state.slideIndex}
-                            type="hidden"
-                            min={0}
-                            max={3}
-                        />
-                        <Slider ref={slider => (this.slider = slider)} {...settings}>
-                            <div>
-                                a
-                            </div>
-                            <div>
-                                b
-                            </div>
-                            <div>
-                                c
-                            </div>
-                            <div>
-                                d
-                            </div>
-                        </Slider>
+                        <Carousel interval="3000">
+                            {imageSlide.map((image, index) => (
+                                <SlidingImages key={index} image={image} />
+                            ))}
+                        </Carousel>
                     </RekomendasiContainer>
                 </Box>
                 <Box component="section">
+
                 </Box>
                 <Box component="section">
                 </Box>
