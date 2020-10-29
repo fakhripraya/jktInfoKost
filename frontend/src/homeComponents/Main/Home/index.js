@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import firstIcon from './images/svg-4.svg'
 import secondIcon from './images/svg-5.svg'
 import thirdIcon from './images/svg-6.svg'
+import fourthIcon from './images/svg-7.svg'
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -49,6 +50,12 @@ import {
     RekomendasiHeader,
     LeftSideWrapper,
     RightSideWrapper,
+    RekomendasiKosContainer,
+    RekomendasiKosWrapper,
+    RekomendasiKosCard,
+    RekomendasiKosIcon,
+    RekomendasiKosH2,
+    RekomendasiKosP
 } from './HomeElements'
 import Carousel from 'react-material-ui-carousel'
 import Video from '../../../images/heroBg.png'
@@ -82,9 +89,36 @@ function SlidingImages(props) {
     return (
         <CarouselItemWrapper>
             <CarouselItem alt={props.image.attributes.title_1} src={props.image.attributes.url_1} />
-            <CarouselItem alt={props.image.attributes.title_2} src={props.image.attributes.url_2} />
-            <CarouselItem alt={props.image.attributes.title_3} src={props.image.attributes.url_3} />
         </CarouselItemWrapper>
+    )
+}
+
+function RekomendasiCards() {
+    return (
+        <RekomendasiKosContainer>
+            <RekomendasiKosWrapper>
+                <RekomendasiKosCard>
+                    <RekomendasiKosIcon src={firstIcon} />
+                    <RekomendasiKosH2>Kos-kosan</RekomendasiKosH2>
+                    <RekomendasiKosP>Cari kos-kosan yang sesuai dengan kriteriamu.</RekomendasiKosP>
+                </RekomendasiKosCard>
+                <RekomendasiKosCard>
+                    <RekomendasiKosIcon src={secondIcon} />
+                    <RekomendasiKosH2>Kontrakan</RekomendasiKosH2>
+                    <RekomendasiKosP>Kontrakan yang cocok dan cozy untuk kamu.</RekomendasiKosP>
+                </RekomendasiKosCard>
+                <RekomendasiKosCard>
+                    <RekomendasiKosIcon src={thirdIcon} />
+                    <RekomendasiKosH2>Apartemen</RekomendasiKosH2>
+                    <RekomendasiKosP>Apartemen nyaman dengan kualitas premium.</RekomendasiKosP>
+                </RekomendasiKosCard>
+                <RekomendasiKosCard>
+                    <RekomendasiKosIcon src={fourthIcon} />
+                    <RekomendasiKosH2>Lain - lain</RekomendasiKosH2>
+                    <RekomendasiKosP>Lihat rekomendasi lainnya yang cocok untuk anda.</RekomendasiKosP>
+                </RekomendasiKosCard>
+            </RekomendasiKosWrapper>
+        </RekomendasiKosContainer>
     )
 }
 
@@ -239,35 +273,35 @@ function Index({
                         </InfoWrapper>
                     </InfoContainer>
                 </Box>
-            </Container>
-            <CategoryContainer>
-                <CategoryH1>Kategori</CategoryH1>
-                <CategoryH2Cont>Cari pilihan anda sesuai kategori</CategoryH2Cont>
-                <CategoryWrapper>
-                    <CategoryCard>
-                        <CategoryIcon src={firstIcon} />
-                        <CategoryH2>Kos-kosan</CategoryH2>
-                        <CategoryP>Cari kos-kosan yang sesuai dengan kriteriamu!</CategoryP>
-                    </CategoryCard>
-                    <CategoryCard>
-                        <CategoryIcon src={secondIcon} />
-                        <CategoryH2>Kontrakan</CategoryH2>
-                        <CategoryP>Kontrakan yang cocok dan cozy untuk kamu!</CategoryP>
-                    </CategoryCard>
-                    <CategoryCard>
-                        <CategoryIcon src={thirdIcon} />
-                        <CategoryH2>Apartemen</CategoryH2>
-                        <CategoryP>Apartemen nyaman dengan kualitas premium!</CategoryP>
-                    </CategoryCard>
-                </CategoryWrapper>
-            </CategoryContainer>
-            <Container style={{ backgroundColor: 'white' }} maxWidth="lg">
-                <Box component="section">
+                <Box>
+                    <CategoryContainer>
+                        <CategoryH1>Kategori</CategoryH1>
+                        <CategoryH2Cont>Cari pilihan anda sesuai kategori</CategoryH2Cont>
+                        <CategoryWrapper>
+                            <CategoryCard>
+                                <CategoryIcon src={firstIcon} />
+                                <CategoryH2>Kos-kosan</CategoryH2>
+                                <CategoryP>Cari kos-kosan yang sesuai dengan kriteriamu!</CategoryP>
+                            </CategoryCard>
+                            <CategoryCard>
+                                <CategoryIcon src={secondIcon} />
+                                <CategoryH2>Kontrakan</CategoryH2>
+                                <CategoryP>Kontrakan yang cocok dan cozy untuk kamu!</CategoryP>
+                            </CategoryCard>
+                            <CategoryCard>
+                                <CategoryIcon src={thirdIcon} />
+                                <CategoryH2>Apartemen</CategoryH2>
+                                <CategoryP>Apartemen nyaman dengan kualitas premium!</CategoryP>
+                            </CategoryCard>
+                        </CategoryWrapper>
+                    </CategoryContainer>
+                </Box>
+                <Box style={{ marginTop: '100px' }} component="section">
                     <RekomendasiContainer>
                         <RekomendasiHeader>
                             <LeftSideWrapper>
                                 <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-mutiple-name-label">Rekomendasi Kos di</InputLabel>
+                                    <InputLabel style={{ fontWeight: 700 }} id="demo-mutiple-name-label">Rekomendasi Kos</InputLabel>
                                     <Select
                                         labelId="demo-mutiple-name-label"
                                         id="demo-mutiple-name"
@@ -290,10 +324,37 @@ function Index({
                                 <CustomButton to="/login"><FaChevronRight /></CustomButton>
                             </RightSideWrapper>
                         </RekomendasiHeader>
-                        <Carousel interval="3000">
-                            {imageSlide.map((image, index) => (
-                                <SlidingImages key={index} image={image} />
-                            ))}
+                        <Carousel navButtonsAlwaysInvisible={true} autoPlay={false} animation="slide" interval="3000">
+                            <RekomendasiCards />
+                        </Carousel>
+                        <RekomendasiHeader>
+                            <LeftSideWrapper>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel style={{ fontWeight: 700 }} id="demo-mutiple-name-label">Area Terpopuler</InputLabel>
+                                    <Select
+                                        labelId="demo-mutiple-name-label"
+                                        id="demo-mutiple-name"
+                                        value={personName}
+                                        onChange={handleChangeDropdown}
+                                        input={<Input />}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {names.map((name) => (
+                                            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                                                {name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </LeftSideWrapper>
+                            <RightSideWrapper>
+                                <CustomButton to="/login">Lihat Semua</CustomButton>
+                                <CustomButton to="/login"><FaChevronLeft /></CustomButton>
+                                <CustomButton to="/login"><FaChevronRight /></CustomButton>
+                            </RightSideWrapper>
+                        </RekomendasiHeader>
+                        <Carousel autoPlay={false} animation="slide" interval="3000">
+                            <RekomendasiCards />
                         </Carousel>
                     </RekomendasiContainer>
                 </Box>

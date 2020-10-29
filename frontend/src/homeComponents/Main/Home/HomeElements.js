@@ -97,7 +97,7 @@ export const CarouselItemWrapper = styled.div`
 `
 
 export const CarouselItem = styled.img`
-    width: 33%;
+    width: 100%;
 `
 
 /*INFO SECTION*/
@@ -314,7 +314,7 @@ export const CategoryP = styled.p`
 /*SLIDER SECTION*/
 
 export const RekomendasiContainer = styled.div`
-    height: 800px;
+    height: 1300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -322,14 +322,14 @@ export const RekomendasiContainer = styled.div`
 `
 
 export const RekomendasiHeader = styled.div`
-    height: 50px;
     display: flex;
+    margin-bottom: -80px;
+    z-index: 1;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 `
 export const RekomendasiBody = styled.div`
-    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -343,7 +343,11 @@ export const LeftSideWrapper = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-right: 100px;
+    margin-right: 200px;
+
+    @media screen and (max-width: 1000px){
+        margin-right: auto;
+    }
 `
 
 export const RightSideWrapper = styled.div`
@@ -353,5 +357,86 @@ export const RightSideWrapper = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    margin-left: 100px;
+    margin-left: 200px;
+    
+    @media screen and (max-width: 1000px){
+        margin-left: auto;
+    }
+`
+
+/*REKOMENDASI KOS*/
+
+export const RekomendasiKosContainer = styled.div`
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffff;
+
+    @media screen and (max-width: 1000px){
+        height: 800px;
+    }
+
+    @media screen and (max-width: 768px){
+        height: 1100px;
+    }
+
+    @media screen and (max-width: 480px){
+        height: 1300px;
+    }
+`
+
+export const RekomendasiKosWrapper = styled.div`
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    grid-gap: 26px;
+    padding: 0 50px;
+
+    @media screen and (max-width: 1000px){
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (max-width: 768px){
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
+`
+
+export const RekomendasiKosCard = styled.div`
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 10px;
+    max-height: 340px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+        transform: scale(1.02);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+`
+
+export const RekomendasiKosIcon = styled.img`
+    height: 160px;
+    width: 160px;
+    margin-bottom: 10px;
+`
+
+export const RekomendasiKosH2 = styled.h2`
+    font-size: 1rem;
+    margin-bottom: 10px;
+`
+
+export const RekomendasiKosP = styled.p`
+    font-size: 1rem;
+    text-align: center;
 `
