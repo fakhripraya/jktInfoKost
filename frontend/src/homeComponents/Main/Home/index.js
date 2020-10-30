@@ -38,6 +38,8 @@ import {
     ImgWrap,
     Img,
     CustomButton,
+    CustomButtonCarouselWrapper,
+    CustomButtonCarousel,
     CategoryContainer,
     CategoryWrapper,
     CategoryCard,
@@ -89,6 +91,9 @@ function SlidingImages(props) {
     return (
         <CarouselItemWrapper>
             <CarouselItem alt={props.image.attributes.title_1} src={props.image.attributes.url_1} />
+            <CustomButtonCarouselWrapper>
+                <CustomButtonCarousel to="/login">Ketahui lebih lanjut</CustomButtonCarousel>
+            </CustomButtonCarouselWrapper>
         </CarouselItemWrapper>
     )
 }
@@ -243,7 +248,7 @@ function Index({
                         </HeroContent>
                     </HeroWrapper>
                 </Box>
-                <Box component="section">
+                <Box style={{ marginTop: '50px' }} component="section">
                     <Carousel interval="3000">
                         {imageSlide.map((image, index) => (
                             <SlidingImages key={index} image={image} />
@@ -353,7 +358,7 @@ function Index({
                                 <CustomButton to="/login"><FaChevronRight /></CustomButton>
                             </RightSideWrapper>
                         </RekomendasiHeader>
-                        <Carousel autoPlay={false} animation="slide" interval="3000">
+                        <Carousel navButtonsAlwaysInvisible={true} autoPlay={false} animation="slide" interval="3000">
                             <RekomendasiCards />
                         </Carousel>
                     </RekomendasiContainer>

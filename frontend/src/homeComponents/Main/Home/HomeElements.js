@@ -89,6 +89,7 @@ export const HeroSearchWrapper = styled.div`
 
 export const CarouselItemWrapper = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 500px;
@@ -97,7 +98,42 @@ export const CarouselItemWrapper = styled.div`
 `
 
 export const CarouselItem = styled.img`
+    position: absolute;
     width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+`
+
+export const CustomButtonCarouselWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: 100%;
+    width: 100%;
+    margin-left: 30px;
+`
+
+export const CustomButtonCarousel = styled(Link)`
+    border-radius: 50px;
+    background: #33c9ff;
+    white-space: nowrap;
+    z-index: 1;
+    padding: 10px 22px;
+    margin: 0 5px;
+    color: #fff;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+
+    &:hover{
+        transform: scale(1.05);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
 `
 
 /*INFO SECTION*/
@@ -202,6 +238,7 @@ export const CustomButton = styled(Link)`
     border-radius: 50px;
     background: #33c9ff;
     white-space: nowrap;
+    z-index: 1;
     padding: 10px 22px;
     margin: 0 5px;
     color: #fff;
