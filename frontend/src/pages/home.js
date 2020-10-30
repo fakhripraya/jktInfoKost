@@ -3,6 +3,7 @@ import Navbar from '../homeComponents/Navbar'
 import MainBody from '../homeComponents/Main/MainBody'
 import Footer from '../homeComponents/Footer'
 import { animated, useTransition } from 'react-spring'
+import Background from '../homeComponents/Background'
 
 function Home() {
     const transitions = useTransition(null, null, {
@@ -15,6 +16,7 @@ function Home() {
     return transitions.map(({ key, props }) =>
         <animated.div key={key} style={props}>
             <Fragment>
+                <Background />
                 <Navbar />
                 <MainBody />
                 <Footer />

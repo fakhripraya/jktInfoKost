@@ -69,6 +69,10 @@ export const Input = styled.input`
 `
 
 export const Footer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-top: 1em;
     margin-bottom: 3em;
 `
@@ -93,4 +97,9 @@ export const BtnSubmit = styled.button`
         transition: all 0.2s ease-in-out;
         cursor: pointer;
     }
+`
+
+export const HyperText = styled.a`
+    margin-top: 10px;
+    display: block;
 `

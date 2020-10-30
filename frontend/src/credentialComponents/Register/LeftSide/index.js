@@ -6,7 +6,8 @@ import {
     Content,
     BtnGoogle,
     BtnFacebook,
-    BtnRedirect
+    BtnRedirect,
+    SmallText
 } from './SideElements'
 
 export default class index extends Component {
@@ -34,7 +35,10 @@ export default class index extends Component {
                             acebook
                         </p>
                     </BtnFacebook>
-                    <BtnRedirect to="/register" >Sign Up</BtnRedirect>
+                    <SmallText>
+                        Sudah punya akun?
+                    </SmallText>
+                    <BtnRedirect to="/login" >Masuk</BtnRedirect>
                 </Content>
             </BaseContainer>
         )

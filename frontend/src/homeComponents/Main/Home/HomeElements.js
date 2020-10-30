@@ -365,11 +365,19 @@ export const RekomendasiHeader = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-`
-export const RekomendasiBody = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    @media screen and (max-width: 1000px){
+        margin-bottom: 0px;
+        transform: scale(0.8);
+    }
+
+    @media screen and (max-width: 768px){
+        transform: scale(0.8);
+    }
+
+    @media screen and (max-width: 480px){
+        transform: scale(0.6);
+    }
 `
 
 export const LeftSideWrapper = styled.div`
@@ -383,7 +391,11 @@ export const LeftSideWrapper = styled.div`
     margin-right: 200px;
 
     @media screen and (max-width: 1000px){
-        margin-right: auto;
+        transform: scale(0.8);
+    }
+
+    @media screen and (max-width: 480px){
+        margin-right: 0px;
     }
 `
 
@@ -397,7 +409,16 @@ export const RightSideWrapper = styled.div`
     margin-left: 200px;
     
     @media screen and (max-width: 1000px){
-        margin-left: auto;
+        transform: scale(0.8);
+        margin-left: 150px;
+    }
+
+    @media screen and (max-width: 768px){
+        margin-left: -150px;
+    }
+
+    @media screen and (max-width: 480px){
+        margin-left: 0px;
     }
 `
 
@@ -412,15 +433,7 @@ export const RekomendasiKosContainer = styled.div`
     background: #ffff;
 
     @media screen and (max-width: 1000px){
-        height: 800px;
-    }
-
-    @media screen and (max-width: 768px){
-        height: 1100px;
-    }
-
-    @media screen and (max-width: 480px){
-        height: 1300px;
+        height: 100%;
     }
 `
 
@@ -435,11 +448,7 @@ export const RekomendasiKosWrapper = styled.div`
 
     @media screen and (max-width: 1000px){
         grid-template-columns: 1fr 1fr;
-    }
-
-    @media screen and (max-width: 768px){
-        grid-template-columns: 1fr;
-        padding: 0 20px;
+        grid-gap: 0px;
     }
 `
 
@@ -455,8 +464,21 @@ export const RekomendasiKosCard = styled.div`
     box-shadow: 0 1px 3px rgba(0,0,0,0.5);
     transition: all 0.2s ease-in-out;
 
+    @media screen and (max-width: 1000px){
+        transform: scale(0.8);
+    }
+
     &:hover{
         transform: scale(1.02);
+
+        @media screen and (max-width: 1000px){
+        transform: scale(0.82);
+        }
+
+        @media screen and (max-width: 480px){
+        transform: scale(0.62);
+        }
+
         transition: all 0.2s ease-in-out;
         cursor: pointer;
     }

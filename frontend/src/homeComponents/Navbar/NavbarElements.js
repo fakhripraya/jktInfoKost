@@ -105,7 +105,36 @@ export const NavBtn = styled.nav`
     }
 `
 
-export const NavBtnLink = styled(Link)`
+export const SpanMasuk = styled.span`
+    color: #33c9ff;
+`
+
+export const NavBtnLinkMasuk = styled(Link)`
+    border-radius: 50px;
+    background: #ffffff;
+    white-space: nowrap;
+    padding: 10px 22px;
+    margin: 0 5px;
+    color: #fff;
+    font-size: 20px;
+    outline: none;
+    border: solid 1px #33c9ff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+
+    &:hover{
+        & > ${SpanMasuk} {
+        color: #fff;
+    }
+    
+        transition: all 0.2s ease-in-out;
+        background: #33c9ff;
+        color: #33c9ff;
+    }
+`
+
+export const NavBtnLinkDaftar = styled(Link)`
     border-radius: 50px;
     background: #33c9ff;
     white-space: nowrap;
@@ -120,6 +149,7 @@ export const NavBtnLink = styled(Link)`
     text-decoration: none;
 
     &:hover{
+        border: solid 1px #33c9ff;
         transition: all 0.2s ease-in-out;
         background: #fff;
         color: #33c9ff;

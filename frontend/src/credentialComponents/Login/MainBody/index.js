@@ -16,7 +16,7 @@ function MainBody() {
                     params={{
                         "particles": {
                             "number": {
-                                "value": 8,
+                                "value": 16,
                                 "density": {
                                     "enable": true,
                                     "value_area": 800

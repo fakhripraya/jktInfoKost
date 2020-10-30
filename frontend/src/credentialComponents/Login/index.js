@@ -11,7 +11,8 @@ import {
     Label,
     Input,
     Footer,
-    BtnSubmit
+    BtnSubmit,
+    HyperText
 } from './LoginElements'
 
 export default class index extends Component {
@@ -24,7 +25,7 @@ export default class index extends Component {
         return (
             <BaseContainer>
                 <Header>
-                    Sign In
+                    Masuk
                 </Header>
                 <Content>
                     <ImageWrapper>
@@ -32,17 +33,18 @@ export default class index extends Component {
                     </ImageWrapper>
                     <Form>
                         <FormGroup>
-                            <Label htmlFor="username" >Username</Label>
-                            <Input type="text" name="username" placeholder="username" />
+                            <Label htmlFor="username" >Nama User</Label>
+                            <Input type="text" name="username" placeholder="nama user" />
                         </FormGroup>
                         <FormGroup>
-                            <Label htmlFor="password" >Password</Label>
-                            <Input type="password" name="password" placeholder="password" />
+                            <Label htmlFor="password" >Kata sandi</Label>
+                            <Input type="password" name="password" placeholder="kata sandi" />
                         </FormGroup>
                     </Form>
                 </Content>
                 <Footer>
-                    <BtnSubmit type="button" >Sign In</BtnSubmit>
+                    <BtnSubmit type="button" >Masuk</BtnSubmit>
+                    <HyperText href="/login"> Lupa Kata Sandi?</HyperText>
                 </Footer>
             </BaseContainer>
         )

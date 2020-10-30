@@ -11,7 +11,8 @@ import {
     Label,
     Input,
     Footer,
-    BtnSubmit
+    BtnSubmit,
+    SmallText
 } from './RegisterElements'
 
 export default class index extends Component {
@@ -24,7 +25,7 @@ export default class index extends Component {
         return (
             <BaseContainer>
                 <Header>
-                    Sign Up
+                    Daftar Sekarang
                 </Header>
                 <Content>
                     <ImageWrapper>
@@ -32,25 +33,30 @@ export default class index extends Component {
                     </ImageWrapper>
                     <Form>
                         <FormGroup>
-                            <Label htmlFor="username" >Username</Label>
-                            <Input type="text" name="username" placeholder="username" />
+                            <Label htmlFor="username" >Nama user</Label>
+                            <Input type="text" name="username" placeholder="nama user" />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="email" >Email</Label>
                             <Input type="email" name="email" placeholder="email" />
                         </FormGroup>
                         <FormGroup>
-                            <Label htmlFor="password" >Password</Label>
-                            <Input type="password" name="password" placeholder="password" />
+                            <Label htmlFor="password" >Kata sandi</Label>
+                            <Input type="password" name="password" placeholder="kata sandi" />
                         </FormGroup>
                         <FormGroup>
-                            <Label htmlFor="confirmPassword" >Username</Label>
-                            <Input type="password" name="confirmPassword" placeholder="confirm password" />
+                            <Label htmlFor="confirmPassword" >Konfirmasi kata sandi</Label>
+                            <Input type="password" name="confirmPassword" placeholder="konfirmasi kata sandi" />
                         </FormGroup>
                     </Form>
                 </Content>
                 <Footer>
-                    <BtnSubmit type="button" >Sign Up</BtnSubmit>
+                    <BtnSubmit type="button" >Daftar</BtnSubmit>
+                    <SmallText>
+                        Dengan mendaftar, saya menyetujui
+                        <a href="/login"> Syarat dan Ketentuan</a> serta
+                        <a href="/login"> Kebijakan Privasi</a>
+                    </SmallText>
                 </Footer>
             </BaseContainer>
         )

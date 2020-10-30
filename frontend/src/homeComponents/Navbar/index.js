@@ -11,7 +11,9 @@ import {
     NavItem,
     NavLinks,
     NavBtn,
-    NavBtnLink,
+    NavBtnLinkMasuk,
+    SpanMasuk,
+    NavBtnLinkDaftar,
     NavBtnMobile,
     NavBtnLinkMobile,
     DrawerWrapper
@@ -103,8 +105,8 @@ const Navbar = () => {
             </List>
             <Divider />
             <NavBtnMobile>
-                <NavBtnLinkMobile to="/login">Sign In</NavBtnLinkMobile>
-                <NavBtnLinkMobile to="/register">Sign Up</NavBtnLinkMobile>
+                <NavBtnLinkMobile to="/login">Masuk</NavBtnLinkMobile>
+                <NavBtnLinkMobile to="/register">Daftar</NavBtnLinkMobile>
             </NavBtnMobile>
         </DrawerWrapper>
     );
@@ -134,8 +136,8 @@ const Navbar = () => {
                         </NavItem>
                     </NavMenu>
                     <NavBtn>
-                        <NavBtnLink to="/login">Sign In</NavBtnLink>
-                        <NavBtnLink to="/register">Sign Up</NavBtnLink>
+                        <NavBtnLinkMasuk to="/login"><SpanMasuk>Masuk</SpanMasuk></NavBtnLinkMasuk>
+                        <NavBtnLinkDaftar to="/register">Daftar</NavBtnLinkDaftar>
                     </NavBtn>
                 </NavbarContainer>
             </Nav>

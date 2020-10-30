@@ -23,6 +23,14 @@ export const Header = styled.div`
     font-size: 24px;
 `
 
+export const SmallText = styled.p`
+    font-size: 14px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
@@ -84,7 +92,7 @@ export const BtnRedirect = styled(Link)`
     background: #33c9ff;
     white-space: nowrap;
     z-index: 1;
-    padding: 10px 30px;
+    padding: 10px 40px;
     margin: 10px 5px;
     color: #fff;
     font-size: 20px;

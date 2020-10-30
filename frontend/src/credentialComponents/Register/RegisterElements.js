@@ -11,10 +11,6 @@ export const BaseContainer = styled.div`
     border-radius: 30px;
     border: solid 1.5px rgba(0,0,0,0.1);
     box-shadow: 0px 0px 12px 0.8px #0e81ce96;
-    
-    @media screen and (max-width: 768px){
-        transform: scale(0.8);
-    }
 `
 
 export const Header = styled.div`
@@ -74,8 +70,20 @@ export const Input = styled.input`
 `
 
 export const Footer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-top: 1em;
     margin-bottom: 3em;
+`
+
+export const SmallText = styled.p`
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 `
 
 export const BtnSubmit = styled.button`
