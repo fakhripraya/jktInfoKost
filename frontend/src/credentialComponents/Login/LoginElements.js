@@ -99,7 +99,9 @@ export const BtnSubmit = styled.button`
     }
 `
 
-export const HyperText = styled.a`
-    margin-top: 10px;
+export const HyperText = styled.p`
+    margin-top: 20px;
     display: block;
+    cursor: pointer;
+    color: #33c9ff;
 `

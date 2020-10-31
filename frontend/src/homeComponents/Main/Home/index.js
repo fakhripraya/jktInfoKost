@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import firstIcon from './images/svg-4.svg'
 import secondIcon from './images/svg-5.svg'
 import thirdIcon from './images/svg-6.svg'

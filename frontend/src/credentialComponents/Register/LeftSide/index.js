@@ -11,11 +11,6 @@ import {
 } from './SideElements'
 
 export default class index extends Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <BaseContainer>

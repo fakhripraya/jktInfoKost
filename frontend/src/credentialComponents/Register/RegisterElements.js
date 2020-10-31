@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const BaseContainer = styled.div`
-    width: 450px;
+    width: 500px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -53,7 +53,7 @@ export const Label = styled.label`
 
 export const Input = styled.input`
     margin-top: 6px;
-    min-width: 18em;
+    min-width: 22em;
     height: 37px;
     padding: 0px 10px;
     font-size: 16px;
@@ -62,6 +62,10 @@ export const Input = styled.input`
     border-radius: 4px;
     margin-bottom: 31px;
     transition: all 0.25s ease-in-out;
+
+    @media screen and (max-width:768px){
+        min-width: 18em;
+    }
 
         &:focus{
             outline: none;
@@ -107,4 +111,9 @@ export const BtnSubmit = styled.button`
         cursor: pointer;
     }
 
+`
+
+export const HyperText = styled.span`
+    cursor: pointer;
+    color: #33c9ff;
 `

@@ -12,7 +12,8 @@ import {
     Input,
     Footer,
     BtnSubmit,
-    SmallText
+    SmallText,
+    HyperText
 } from './RegisterElements'
 
 export default class index extends Component {
@@ -37,8 +38,8 @@ export default class index extends Component {
                             <Input type="text" name="username" placeholder="nama user" />
                         </FormGroup>
                         <FormGroup>
-                            <Label htmlFor="email" >Email</Label>
-                            <Input type="email" name="email" placeholder="email" />
+                            <Label htmlFor="email" >Email atau Nomer HP</Label>
+                            <Input type="text" name="emailOrHp" placeholder="email atau nomer hp" />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="password" >Kata sandi</Label>
@@ -54,8 +55,8 @@ export default class index extends Component {
                     <BtnSubmit type="button" >Daftar</BtnSubmit>
                     <SmallText>
                         Dengan mendaftar, saya menyetujui
-                        <a href="/login"> Syarat dan Ketentuan</a> serta
-                        <a href="/login"> Kebijakan Privasi</a>
+                        <HyperText> Syarat dan Ketentuan</HyperText> serta
+                        <HyperText> Kebijakan Privasi</HyperText>
                     </SmallText>
                 </Footer>
             </BaseContainer>

@@ -1,0 +1,71 @@
+require('dotenv').config();
+const OAuth2 = google.auth.OAuth2;
+const passport = require('passport');
+const router = require('express').Router();
+const google = require('googleapis').google;
+const CONFIG = require('../services/config');
+const MasterUser = require('../models/masterUser.model');
+
+router.get('/', (req, res) => {
+    if (!req.user) {
+        res.json({ user: null, userInit: null });
+    }
+    else {
+        MasterUser.findById(req.user.id)
+            .then((user) => {
+                const username = user.username;
+                let userInitial = username.match(/\b(\w)/g);;
+                userInitial = userInitial.join('');
+
+                res.json({ user: user, userInit: userInitial });
+            })
+            .catch(err => res.status(400).json({ message: 'Error: ' + err }));
+    }
+});
+
+// auth logout
+router.get('/logout', (req, res) => {
+    //handle with passport
+    try {
+        req.logout();
+        res.json({ message: 'Successfully logged out.' });
+    }
+    catch (err) {
+        res.json({ message: 'Error: ' + err });
+    }
+});
+
+// internal auth
+router.get('/login', function (req, res, next) {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) throw err;
+        if (!user) console.log('No User Exists');
+        else {
+            req.logIn(user, err => {
+                if (err) throw err;
+                res.send('Successfully Authenticated');
+                console.log(req.user);
+                res.redirect(process.env.FRONTEND_URL + process.env.FRONTEND_PORT + '/dashboard');
+            })
+        }
+    })(req, res, next);
+});
+
+// external auth
+router.get('/google', function (req, res) {
+    // Create an OAuth2 client object from the credentials in our config file
+    const oauth2Client = new OAuth2(CONFIG.oauth2Credentials.client_id, CONFIG.oauth2Credentials.client_secret, CONFIG.oauth2Credentials.redirect_uris[0]);
+    // Obtain the google login link to which we'll send our users to give us access
+    const loginLink = oauth2Client.generateAuthUrl({
+        access_type: 'offline', // Indicates that we need to be able to access data continously without the user constantly giving us consent
+        scope: CONFIG.oauth2Credentials.scopes // Using the access scopes from our config file
+    });
+    return res.send(loginLink);
+});
+
+// callback route for google to redirect to
+router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+    res.redirect(process.env.FRONTEND_URL + process.env.FRONTEND_PORT + '/dashboard');
+});
+
+module.exports = router;
