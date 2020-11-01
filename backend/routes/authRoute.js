@@ -1,10 +1,11 @@
 require('dotenv').config();
-const OAuth2 = google.auth.OAuth2;
 const passport = require('passport');
 const router = require('express').Router();
 const google = require('googleapis').google;
+const OAuth2 = google.auth.OAuth2;
 const CONFIG = require('../services/config');
 const MasterUser = require('../models/masterUser.model');
+const nodemailer = require('nodemailer');
 
 // get user
 router.get('/', (req, res) => {
@@ -31,10 +32,33 @@ router.get('/', (req, res) => {
 
 // auth verification
 
-router.get('/verif', (req, res) => {
+router.get('/register/verification', (req, res) => {
     try {
-        req.logout();
-        res.json({ message: 'Successfully logged out.' });
+        let { email, phone } = req.body;
+
+        var transport = nodemailer.createTransport({
+            host: "smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+                user: "978d5f0612f11b",
+                pass: "47df14605d450b"
+            }
+        });
+
+        const message = {
+            from: 'jktinfokost@info.com', // Sender address
+            to: 'test@email.com',         // List of recipients
+            subject: 'Verifikasi Akun Yang Anda Daftarkan', // Subject line
+            text: 'Have the most fun you can in a car. Get your Tesla today!' // Plain text body
+        };
+        transport.sendMail(message, function (err, info) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log(info);
+            }
+        });
+
     }
     catch (err) {
         res.json({ message: 'Error: ' + err.message });

@@ -31,7 +31,9 @@ export default class index extends Component {
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
-        this.onClick = this.onClick.bind(this);
+        this.onChangeLupaPassword = this.onChangeLupaPassword.bind(this);
+        this.onChangeVerifData = this.onChangeVerifData.bind(this);
+        this.onClickLogin = this.onClickLogin.bind(this);
 
         this.state = {
             openForgotPassWindow: false,
@@ -67,7 +69,7 @@ export default class index extends Component {
         });
     }
 
-    onClick(e) {
+    onClickLogin(e) {
 
         const userLogin = {
             username: this.state.username,
@@ -104,7 +106,7 @@ export default class index extends Component {
                 </Header>
                 <Content>
                     <ImageWrapper>
-                        <Image src={loginImg} alt="" />
+                        <Image src={loginImg} alt="login-page-img" />
                     </ImageWrapper>
                     <Form>
                         <FormGroup>
@@ -118,7 +120,7 @@ export default class index extends Component {
                     </Form>
                 </Content>
                 <Footer>
-                    <BtnSubmit type="button" onClick={this.onClick}>Masuk</BtnSubmit>
+                    <BtnSubmit type="button" onClick={this.onClickLogin}>Masuk</BtnSubmit>
                     <HyperText onClick={() => this.setState({ openForgotPassWindow: true })}> Lupa Kata Sandi?</HyperText>
                 </Footer>
 
@@ -127,7 +129,7 @@ export default class index extends Component {
                     <DialogTitle id="form-dialog-title">Atur ulang kata sandi</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Masukkan e-mail atau nomor hp yang terdaftar.
+                            Masukkan e-mail atau nomor hp anda. Kami akan mengirimkan anda kode verifikasi.
                         </DialogContentText>
                         <TextField
                             autoFocus
@@ -154,14 +156,14 @@ export default class index extends Component {
                     <DialogTitle id="form-dialog-title">Masukan kode verifikasi</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Masukan kode verifikasi yang telah kami kirim ke Email atau Nomor HP anda
+                            Masukkan kode verifikasi yang telah kami kirim ke e-mail atau nomor hp anda.
                         </DialogContentText>
                         <TextField
                             autoFocus
                             onChange={this.onChangeVerifData}
                             margin="dense"
                             id="verif-text-field-login"
-                            label="Email atau Nomer HP yang terdaftar"
+                            label="Kode verifikasi"
                             type="text"
                             fullWidth
                         />

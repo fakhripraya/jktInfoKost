@@ -1,0 +1,19 @@
+Register Pertama
+
+-Nama Lengkap
+-Nomor Handphone
+-Email
+-Password
+
+Input Data Kost
+-Lokasi Kost
+-Nama Kost (Judul)
+-Tipe Kost
+-Luas Kamar
+-Tahun Bangunan
+-Jumlah Kamar Total
+-Jumlah Kamar Tersisa
+-Harga Kamar Perbulan,Perhari,Pertahun,Per 6 bulan
+-Fasilitas Kost
+-Kamar mandi Dalam atau luar
+-Foto Kost

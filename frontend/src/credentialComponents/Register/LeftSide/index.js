@@ -24,7 +24,7 @@ export default class index extends Component {
     onClickGoogle(e) {
         let source = axios.CancelToken.source()
 
-        axios.post({ RESTAPIDOMAIN } + '/auth/google')
+        axios.get(RESTAPIDOMAIN + '/auth/google')
             .then(response => {
                 window.location.href = response.data;
             })
@@ -47,7 +47,7 @@ export default class index extends Component {
     onClickFacebook(e) {
         let source = axios.CancelToken.source()
 
-        axios.post({ RESTAPIDOMAIN } + '/auth/facebook')
+        axios.get(RESTAPIDOMAIN + '/auth/facebook')
             .then(res =>
                 console.log(res.data)
             )

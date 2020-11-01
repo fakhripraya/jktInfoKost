@@ -61,7 +61,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 //initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
-require('./services/passport-setup')(passport);
+require('./services/passport-setup');
 
 //---------------------------------------------------END OF EXPRESS REGION---------------------------------------------------
 
@@ -70,13 +70,9 @@ require('./services/passport-setup')(passport);
 
 //Route list
 const authRouter = require('./routes/authRoute');
-const itemsRouter = require('./routes/itemsRoute');
-const baseUsersRouter = require('./routes/usersRoute');
 
 //Url routes
 app.use('/auth', authRouter);
-app.use('/items', itemsRouter);
-app.use('/users', baseUsersRouter);
 
 //---------------------------------------------------END OF ROUTE SETTINGS---------------------------------------------------
 /*---------------------------------------------------END OF APPLICATION SETTINGS---------------------------------------------------*/
