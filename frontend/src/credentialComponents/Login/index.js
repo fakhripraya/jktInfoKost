@@ -34,7 +34,10 @@ export default class index extends Component {
         this.onClick = this.onClick.bind(this);
 
         this.state = {
-            open: false,
+            openForgotPassWindow: false,
+            openVerifWindow: false,
+            verificationData: '',
+            forgotPasswordData: '',
             username: '',
             password: '',
         };
@@ -52,6 +55,18 @@ export default class index extends Component {
         });
     }
 
+    onChangeLupaPassword(e) {
+        this.setState({
+            forgotPasswordData: e.target.value
+        });
+    }
+
+    onChangeVerifData(e) {
+        this.setState({
+            verificationData: e.target.value
+        });
+    }
+
     onClick(e) {
 
         const userLogin = {
@@ -61,8 +76,10 @@ export default class index extends Component {
 
         let source = axios.CancelToken.source()
 
-        axios.post('http://' + { RESTAPIDOMAIN } + '/auth/login', userLogin)
-            .then(res => console.log(res.data))
+        axios.post({ RESTAPIDOMAIN } + '/auth/login', userLogin)
+            .then(response => {
+                console.log(response.data);
+            })
             .catch(error => {
                 if (axios.isCancel(error)) {
                     console.log('Request canceled', error.message);
@@ -102,28 +119,58 @@ export default class index extends Component {
                 </Content>
                 <Footer>
                     <BtnSubmit type="button" onClick={this.onClick}>Masuk</BtnSubmit>
-                    <HyperText onClick={() => this.setState({ open: true })}> Lupa Kata Sandi?</HyperText>
+                    <HyperText onClick={() => this.setState({ openForgotPassWindow: true })}> Lupa Kata Sandi?</HyperText>
                 </Footer>
-                <Dialog open={this.state.open} onClose={() => this.setState({ open: false })} aria-labelledby="form-dialog-title">
+
+                {/* Lupa Password Dialog */}
+                <Dialog open={this.state.openForgotPassWindow} onClose={() => this.setState({ openForgotPassWindow: false })} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Atur ulang kata sandi</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Masukkan e-mail atau nomor hp yang terdaftar. Kami akan mengirimkan kode verifikasi untuk atur ulang kata sandi.
+                            Masukkan e-mail atau nomor hp yang terdaftar.
                         </DialogContentText>
                         <TextField
                             autoFocus
+                            onChange={this.onChangeLupaPassword}
                             margin="dense"
-                            id="name"
+                            id="verif-text-field-forgot-pass"
                             label="Email atau Nomer HP yang terdaftar"
-                            type="email"
+                            type="text"
                             fullWidth
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.setState({ open: false })} color="primary">
+                        <Button onClick={() => this.setState({ openForgotPassWindow: false })} color="primary">
                             Batal
                         </Button>
-                        <Button onClick={() => this.setState({ open: false })} color="primary">
+                        <Button onClick={() => this.setState({ openForgotPassWindow: false })} color="primary">
+                            Lanjut
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                {/* Verif Dialog */}
+                <Dialog open={this.state.openVerifWindow} onClose={() => this.setState({ openVerifWindow: false })} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Masukan kode verifikasi</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Masukan kode verifikasi yang telah kami kirim ke Email atau Nomor HP anda
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            onChange={this.onChangeVerifData}
+                            margin="dense"
+                            id="verif-text-field-login"
+                            label="Email atau Nomer HP yang terdaftar"
+                            type="text"
+                            fullWidth
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ openVerifWindow: false })} color="primary">
+                            Batal
+                        </Button>
+                        <Button onClick={() => this.setState({ openVerifWindow: false })} color="primary">
                             Lanjut
                         </Button>
                     </DialogActions>

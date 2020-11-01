@@ -16,11 +16,13 @@ const masterUserSchema = new Schema({
         type: Number
     },
     externalId: {
-        type: String,
-        required: true,
-        unique: true
+        type: String
     },
     externalProvider: {
+        type: Number,
+        required: true
+    },
+    RoleId: {
         type: Number,
         required: true
     },

@@ -35,7 +35,7 @@ mongoose.connect(process.env.ATLAS_URI, {
 
 const connection = mongoose.connection;
 connection.once('open', () => {
-    console.log("MongoDB database connection established successfully")
+    console.log("Database MongoDB berhasil tersambung")
 })
 
 const MongoStore = require('connect-mongo')(expressSession);
@@ -84,7 +84,7 @@ app.use('/users', baseUsersRouter);
 /*---------------------------------------------------APPLICATION START---------------------------------------------------*/
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`)
+    console.log(`Server berjalan di port: ${port}`)
 });
 
 /*---------------------------------------------------END OF APPLICATION START---------------------------------------------------*/

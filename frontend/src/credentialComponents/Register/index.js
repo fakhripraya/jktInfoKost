@@ -15,11 +15,27 @@ import {
     SmallText,
     HyperText
 } from './RegisterElements'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 export default class index extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            openVerifWindow: false,
+            username: '',
+            email: '',
+            phone: '',
+            password: '',
+            confirmPassword: ''
+        };
     }
 
     render() {
@@ -59,6 +75,32 @@ export default class index extends Component {
                         <HyperText> Kebijakan Privasi</HyperText>
                     </SmallText>
                 </Footer>
+
+                {/* Verif Dialog */}
+                <Dialog open={this.state.openVerifWindow} onClose={() => this.setState({ openVerifWindow: false })} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Atur ulang kata sandi</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Masukkan e-mail atau nomor hp yang anda daftarkan. Kami akan mengirimkan kode verifikasi.
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="verif-text-field-login"
+                            label="Email atau Nomer HP yang terdaftar"
+                            type="text"
+                            fullWidth
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ openVerifWindow: false })} color="primary">
+                            Batal
+                        </Button>
+                        <Button onClick={() => this.setState({ openVerifWindow: false })} color="primary">
+                            Lanjut
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </BaseContainer>
         )
     }

@@ -1,1 +1,1 @@
-export const RESTAPIDOMAIN = 'localhost:5000'
+export const RESTAPIDOMAIN = 'http://localhost:5000'

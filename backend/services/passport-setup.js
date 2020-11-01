@@ -52,17 +52,19 @@ passport.use(
         MasterUser.findOne({ externalId: profile.id, externalProvider: 1 })
             .then((currentUser) => {
                 if (currentUser) {
-                    console.log('user al created');
+                    console.log('User ' + currentUser.username + ' berhasil dibuat');
                     done(null, currentUser);
                 } else {
                     new MasterUser({
                         username: profile.displayName,
+                        password: '',
                         externalId: profile.id,
                         externalProvider: 1,
+                        RoleId: 0,
                         isDelete: false
                     }).save()
                         .then((newUser) => {
-                            console.log('New user created: ' + newUser.username)
+                            console.log('User baru berhasil dibuat: ' + newUser.username)
                         });
                     done(null, newUser);
                 }
