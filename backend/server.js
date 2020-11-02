@@ -63,6 +63,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./services/passport-setup');
 
+//set express view engine
+app.set("view engine", "ejs");
+app.use(express.static("emailTemplate"));
+
 //---------------------------------------------------END OF EXPRESS REGION---------------------------------------------------
 
 

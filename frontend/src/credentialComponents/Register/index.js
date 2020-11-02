@@ -52,7 +52,7 @@ export default class index extends Component {
             errorMessage: '',
             warningFlag: false,
             warningMessage: '',
-            warningType: ''
+            warningType: 'warning'
         };
     }
 
@@ -72,11 +72,7 @@ export default class index extends Component {
                         this.setState({
                             phone: e.target.value
                         });
-                    }
-                    else {
-                        this.setState({
-                            phone: ''
-                        });
+                        return;
                     }
                 }
                 else {
@@ -84,18 +80,9 @@ export default class index extends Component {
                         this.setState({
                             phone: e.target.value
                         });
-                    }
-                    else {
-                        this.setState({
-                            phone: ''
-                        });
+                        return;
                     }
                 }
-            }
-            else {
-                this.setState({
-                    phone: ''
-                });
             }
         }
         else if (e.target.value.includes('@') && e.target.value.lastIndexOf('@') > 0) {
@@ -108,28 +95,19 @@ export default class index extends Component {
                     this.setState({
                         email: e.target.value
                     });
+                    return;
                 }
-                else {
-                    this.setState({
-                        email: ''
-                    });
-                }
-            }
-            else {
-                this.setState({
-                    email: ''
-                });
             }
         }
-        else {
-            this.setState({
-                phone: ''
-            });
 
-            this.setState({
-                email: ''
-            });
-        }
+        this.setState({
+            phone: ''
+        });
+
+        this.setState({
+            email: ''
+        });
+        return;
     }
 
     onChangePassword(e) {
@@ -139,17 +117,13 @@ export default class index extends Component {
         var backslash = new RegExp("\\\\", "");
 
         if (e.target.value.length > 6) {
-            if ((backslash.test(e.target.value) || /[$-/:-@{-~!-#^_`\[\]]/.test(e.target.value)) && /[a-zA-Z\s]+/.test(e.target.value)) {
-                console.log('a');
+            if ((backslash.test(e.target.value) || /[$-/:-@{-~!-#^_`[\]]/.test(e.target.value)) && /[a-zA-Z\s]+/.test(e.target.value)) {
                 PasswordLevel = PasswordLevel + 1;
             }
             if (/\d/.test(e.target.value) && /[a-zA-Z\s]+/.test(e.target.value)) {
                 PasswordLevel = PasswordLevel + 1;
             }
         }
-
-        console.log('tempPassword: ' + e.target.value);
-        console.log('PasswordLevel: ' + PasswordLevel);
 
         this.setState({
             password: e.target.value
@@ -158,8 +132,6 @@ export default class index extends Component {
         if (e.target.value === '') {
             this.setState({
                 warningFlag: false,
-                warningMessage: '',
-                warningType: ''
             });
         }
         else if (PasswordLevel === 0) {
@@ -238,45 +210,36 @@ export default class index extends Component {
         if (this.state.warningFlag === true) {
             this.setState({
                 warningFlag: false,
-                warningMessage: '',
-                warningType: ''
             });
         }
 
-        // const userRegister = {
-        //     username: this.state.username,
-        //     password: this.state.password,
-        //     email: this.state.email,
-        //     phone: this.state.phone,
-        //     confirmPassword: this.state.confirmPassword
-        // }
+        const emailOrphone = {
+            email: this.state.email,
+            phone: this.state.phone,
+            username: this.state.username
+        }
 
-        // const emailOrphone = {
-        //     email: this.state.email,
-        //     phone: this.state.phone
-        // }
+        let source = axios.CancelToken.source()
 
-        // let source = axios.CancelToken.source()
-
-        // await axios.post({ RESTAPIDOMAIN } + '/auth/register/verification', emailOrphone)
-        //     .then(response => {
-        //         console.log(response.data);
-        //         this.setState({ openVerifWindow: true });
-        //     })
-        //     .catch(error => {
-        //         if (axios.isCancel(error)) {
-        //             console.log('Request canceled', error.message);
-        //         } else {
-        //             // handle error
-        //             console.log(error);
-        //         }
-        //     });
-        // return () => {
-        //     //when the component unmounts
-        //     console.log("component unmounted");
-        //     // cancel the request (the message parameter is optional)
-        //     source.cancel('Operation canceled by the user.');
-        // }
+        await axios.post(RESTAPIDOMAIN + '/auth/register/verification', emailOrphone)
+            .then(response => {
+                console.log(response.data);
+                this.setState({ openVerifWindow: true });
+            })
+            .catch(error => {
+                if (axios.isCancel(error)) {
+                    console.log('Request canceled', error.message);
+                } else {
+                    // handle error
+                    console.log(error);
+                }
+            });
+        return () => {
+            //when the component unmounts
+            console.log("component unmounted");
+            // cancel the request (the message parameter is optional)
+            source.cancel('Operation canceled by the user.');
+        }
     }
 
     render() {
@@ -355,7 +318,7 @@ export default class index extends Component {
 
                 {/* Verif Dialog */}
                 <Dialog open={this.state.openVerifWindow} onClose={() => this.setState({ openVerifWindow: false })} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Atur ulang kata sandi</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Verifikasi kode registrasi</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             Masukkan kode verifikasi yang telah kami kirim ke e-mail atau nomor hp anda.

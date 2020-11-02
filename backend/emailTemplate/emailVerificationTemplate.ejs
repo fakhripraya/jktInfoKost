@@ -1,0 +1,136 @@
+<style>
+.base-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.email-header{
+    background: #fff;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-bottom: solid 1.1px rgba(0,0,0,0.5);
+}
+.email-header > img{
+    height: 75px;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-wrapper> img{
+    height: 150px;
+    margin: 60px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-header{
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.upper-content{
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.upper-content > p{
+    font-size: 24px;
+}
+
+.verifiation-code-wrapper{
+    display: flex;
+    width: 400px;
+    height: 400px;
+    border-radius: 20px;
+    border: solid 1px rgba(0,0,0,0.3);
+    align-items: center;
+    justify-content: center;
+}
+
+.verifiation-code-wrapper > h1{
+    font-weight: 600;
+    font-size: 96px;
+    align-items: center;
+    justify-content: center;
+}
+
+.warning-content{
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.warning-content > p{
+    font-size: 24px;
+}
+
+.email-footer{
+    background-color: #33c9ff;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.email-footer > small{
+    font-size: 18px;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+
+<body class="base-container">
+    <div class="email-header">
+        <img id="headerLogo" src="http://localhost:5000/images/Papi_Kost_3.png" alt="Papi_Kost_3.png"/>
+    </div>
+    <section>
+        <div class="logo-wrapper">
+            <img id="contentImg" src="http://localhost:5000/images/svg-1.svg" alt="svg-1.svg"/>
+        </div>
+        <div class="content-body">
+            <div class="content-header">Halo, <%= username %></div>
+            <div class="upper-content"><p>Berikut adalah kode verifikasi untuk registrasi akun anda</p></div>
+            <div class="verifiation-code-wrapper">
+                <h1><%= verificationCode %></h1>
+            </div>
+            <div class="warning-content">
+                <p>
+                    Anda hanya perlu copy-paste kode berikut di website kami, jangan beri tahu kode tersebut kepada siapapun selama proses registrasi
+                </p>
+            </div>
+        </div>
+    </section>
+    <div class="email-footer">
+        <small>© <%= copyrightDate %> All Rights Reserved, PapiKost Indonesia</small>
+    </div>
+</body>

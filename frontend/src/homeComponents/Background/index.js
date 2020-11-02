@@ -9,7 +9,7 @@ const index = () => {
                 params={{
                     "particles": {
                         "number": {
-                            "value": 10,
+                            "value": 4,
                             "density": {
                                 "enable": true,
                                 "value_area": 800
@@ -29,17 +29,27 @@ const index = () => {
                             ],
                             "image": [
                                 {
-                                    "src": "/react.cd2ab268.svg",
+                                    "src": require('../../images/mascot-icon/Berbicara.png'),
                                     "height": 20,
                                     "width": 23
                                 },
                                 {
-                                    "src": "/k8s.2d579d24.svg",
+                                    "src": require('../../images/mascot-icon/Oke.png'),
                                     "height": 20,
                                     "width": 20
                                 },
                                 {
-                                    "src": "/code.b3b4c4f4.png",
+                                    "src": require('../../images/mascot-icon/Sedih.png'),
+                                    "height": 20,
+                                    "width": 20
+                                },
+                                {
+                                    "src": require('../../images/mascot-icon/PokerFace.png'),
+                                    "height": 20,
+                                    "width": 20
+                                },
+                                {
+                                    "src": require('../../images/mascot-icon/Senyum.png'),
                                     "height": 20,
                                     "width": 20
                                 }
