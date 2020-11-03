@@ -125,7 +125,7 @@ export default class index extends Component {
                 </Footer>
 
                 {/* Lupa Password Dialog */}
-                <Dialog open={this.state.openForgotPassWindow} onClose={() => this.setState({ openForgotPassWindow: false })} aria-labelledby="form-dialog-title">
+                <Dialog disableBackdropClick disableEscapeKeyDown open={this.state.openForgotPassWindow} onClose={() => this.setState({ openForgotPassWindow: false })} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Atur ulang kata sandi</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -152,7 +152,7 @@ export default class index extends Component {
                 </Dialog>
 
                 {/* Verif Dialog */}
-                <Dialog open={this.state.openVerifWindow} onClose={() => this.setState({ openVerifWindow: false })} aria-labelledby="form-dialog-title">
+                <Dialog disableBackdropClick disableEscapeKeyDown open={this.state.openVerifWindow} onClose={() => this.setState({ openVerifWindow: false })} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Masukan kode verifikasi</DialogTitle>
                     <DialogContent>
                         <DialogContentText>

@@ -1,0 +1,47 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image alt="logo" width="100px" src="https://i.imgur.com/ZqkDpzZ.png"></mj-image>
+        <mj-divider border-color="rgba(14, 129, 206, 0.5)"></mj-divider>
+        <mj-image alt="header-img" width="300px" src="https://i.imgur.com/FgkvtrH.jpg"></mj-image>
+        <mj-text align="center" font-size="40px" color="rgba(0,0,0,0.7)" font-family="'Roboto', sans-serif">Halo,
+          <%= username %>
+        </mj-text>
+        <mj-text align="center" font-size="25px" color="rgba(0,0,0,0.7)" font-family="'Roboto', sans-serif">Berikut adalah kode verifikasi registrasi anda</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#fff">
+      <mj-column width="400px" border="solid 1.5px rgba(14, 129, 206, 0.3)" padding="30px">
+        <mj-text font-size="40px" font-family="'Roboto', sans-serif" color="rgba(0,0,0,0.7)" align="center">
+          <%= verificationCode %>
+        </mj-text>
+        <mj-text align="center" color="rgba(0,0,0,0.7)" font-size="20px">
+          Anda hanya perlu copy-paste kode berikut di website kami
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text align="center" font-size="25px" color="rgba(0,0,0,0.7)" font-family="'Roboto', sans-serif">Jangan beri tahu kode berikut kepada siapapun selama proses registrasi berlangsung</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="rgba(14, 129, 206, 0.3)">
+      <mj-column>
+        <mj-social font-size="15px" icon-size="30px" mode="horizontal">
+          <mj-social-element name="facebook" href="#">
+            Facebook
+          </mj-social-element>
+          <mj-social-element background-color="#3b5998" name="instagram" href="#">
+            Instagram
+          </mj-social-element>
+        </mj-social>
+        <mj-spacer height="10px" />
+        <mj-text align="center" color="rgba(0,0,0,0.7)" font-size="15px">
+          ©
+          <%= copyrightDate %> All Rights Reserved, Indekos Indonesia
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

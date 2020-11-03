@@ -54,24 +54,32 @@ router.post('/register/verification', (req, res) => {
                 {
                     username: username,
                     verificationCode: verificationCode.toString(),
-                    copyrightDate: new Date().getFullYear().toString(),
-                    baseUrl: process.env.BACKEND_URL + (process.env.PORT || 5000)
+                    copyrightDate: new Date().getFullYear().toString()
                 })
                 .then(result => {
                     console.log('mashok pa eko');
                     emailTemplate = result;
 
-                    var transport = nodemailer.createTransport({
-                        host: "smtp.mailtrap.io",
-                        port: 2525,
+                    // let transport = nodemailer.createTransport({
+                    //     host: "smtp.mailtrap.io",
+                    //     port: 2525,
+                    //     auth: {
+                    //         user: "978d5f0612f11b",
+                    //         pass: "47df14605d450b"
+                    //     }
+                    // });
+
+                    let transport = nodemailer.createTransport({
+                        host: "smtp.gmail.com",
+                        port: 587,
                         auth: {
-                            user: "978d5f0612f11b",
-                            pass: "47df14605d450b"
+                            user: "tissymobile@gmail.com",
+                            pass: "arisajah123"
                         }
                     });
 
                     const message = {
-                        from: 'jktinfokost@info.com', // Sender address
+                        from: 'tissymobile@gmail.com', // Sender address
                         to: email,         // List of recipients
                         subject: 'Verifikasi Akun Yang Anda Daftarkan', // Subject line
                         html: emailTemplate // Plain text body
@@ -87,10 +95,10 @@ router.post('/register/verification', (req, res) => {
                     });
                 })
                 .catch(err => {
-                    console.log(err.message);
+                    console.log(err);
                     res.status(400).json({
                         message: 'Error Rendering emailTemplate',
-                        error: err
+                        error: err.message
                     });
                 });
         }

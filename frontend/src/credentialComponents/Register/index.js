@@ -317,7 +317,7 @@ export default class index extends Component {
                 </Footer>
 
                 {/* Verif Dialog */}
-                <Dialog open={this.state.openVerifWindow} onClose={() => this.setState({ openVerifWindow: false })} aria-labelledby="form-dialog-title">
+                <Dialog disableBackdropClick disableEscapeKeyDown open={this.state.openVerifWindow} onClose={() => this.setState({ openVerifWindow: false })} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Verifikasi kode registrasi</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
