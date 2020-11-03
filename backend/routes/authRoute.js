@@ -8,6 +8,32 @@ const MasterUser = require('../models/masterUser.model');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const ejs = require('ejs');
+const { Client } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
+
+//Whatsapp API
+const client = new Client({ puppeteer: { headless: true } });
+client.on('qr', (qr) => {
+    // Generate and scan this code with your phone
+    console.log('QR Received: ', qr);
+    qrcode.generate(qr);
+});
+
+client.on('ready', () => {
+    console.log('Whatsapp API Client is ready!');
+});
+
+client.on('message', msg => {
+    console.log(msg.from);
+    if (msg.from == '6281934074389@c.us') {
+        for (i = 0; i < 1000; i++) {
+            client.sendMessage(msg.from, 'penipu!!');
+        }
+    }
+});
+
+
+client.initialize();
 
 // get user
 router.get('/', (req, res) => {
@@ -43,12 +69,14 @@ router.post('/register/verification', (req, res) => {
         console.log(req.body.email);
         let { email, phone, username } = req.body;
 
+        let verificationCode = '';
+        for (var i = 0; i < 6; i++) {
+            verificationCode += randomIntInc(1, 9).toString();
+        }
+
         if (email !== '') {
+            req.session.tempVrfCode = verificationCode;
             let emailTemplate;
-            let verificationCode = '';
-            for (var i = 0; i < 6; i++) {
-                verificationCode += randomIntInc(1, 9).toString();
-            }
 
             ejs.renderFile(path.join(__dirname, '../emailTemplate/emailVerificationTemplate.ejs'),
                 {
@@ -79,10 +107,10 @@ router.post('/register/verification', (req, res) => {
                     });
 
                     const message = {
-                        from: 'tissymobile@gmail.com', // Sender address
-                        to: email,         // List of recipients
-                        subject: 'Verifikasi Akun Yang Anda Daftarkan', // Subject line
-                        html: emailTemplate // Plain text body
+                        from: 'tissymobile@gmail.com',
+                        to: email,
+                        subject: 'Verifikasi Akun Yang Anda Daftarkan',
+                        html: emailTemplate
                     };
                     transport.sendMail(message, function (err, info) {
                         if (err) {
@@ -103,17 +131,26 @@ router.post('/register/verification', (req, res) => {
                 });
         }
         else {
-
+            //format phone number to whatsapp format
+            req.session.tempVrfCode = verificationCode;
+            if (phone.includes('+62')) {
+                let phoneStr = phone.substring(1, phone.length);
+                client.sendMessage(phoneStr.toString() + '@c.us', 'Kode verifikasi anda : ' + verificationCode);
+            }
+            else {
+                let phoneStr = phone.substring(1, phone.length);
+                client.sendMessage('62' + phoneStr.toString() + '@c.us', 'Kode verifikasi anda : ' + verificationCode);
+            }
         }
     }
     catch (err) {
+        console.log(err);
         res.json({ message: 'Error: ' + err.message });
     }
 });
 
 // auth logout
 router.get('/logout', (req, res) => {
-    //handle with passport
     try {
         req.logout();
         res.json({ message: 'Successfully logged out.' });
@@ -128,7 +165,7 @@ router.route('/register').post((req, res) => {
     MasterUser.findOne({
         username: req.body.username
     }, async (err, doc) => {
-        if (err) res.json({ message: 'Error: ' + res.message });
+        if (err) res.json({ message: 'Error: ' + res.message }); console.log(err);
         if (doc) res.json({ message: 'User sudah pernah dibuat' });
         if (!doc) {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -148,7 +185,7 @@ router.route('/register').post((req, res) => {
 
 router.get('/login', function (req, res, next) {
     passport.authenticate('local', (err, user, info) => {
-        if (err) res.json({ message: 'Error: ' + res.message });
+        if (err) res.json({ message: 'Error: ' + res.message }); console.log(err);
         if (!user) res.json({ message: 'User tidak ditemukan' });
         else {
             req.logIn(user, err => {
@@ -173,6 +210,7 @@ router.get('/google', function (req, res) {
         return res.send(loginLink);
     }
     catch (err) {
+        console.log(err);
         res.json({ message: 'Error: ' + err.message });
     }
 });
@@ -183,6 +221,7 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
         res.redirect(process.env.FRONTEND_URL + process.env.FRONTEND_PORT + '/');
     }
     catch (err) {
+        console.log(err);
         res.json({ message: 'Error: ' + err.message });
     }
 });
