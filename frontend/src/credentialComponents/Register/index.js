@@ -28,6 +28,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios'
 import { RESTAPIDOMAIN } from '../../config'
+import { trackPromise } from 'react-promise-tracker';
 
 export default class index extends Component {
 
@@ -220,20 +221,22 @@ export default class index extends Component {
         }
 
         let source = axios.CancelToken.source()
-
-        await axios.post(RESTAPIDOMAIN + '/auth/register/verification', emailOrphone)
-            .then(response => {
-                console.log(response.data);
-                this.setState({ openVerifWindow: true });
+        trackPromise(
+            await axios.post(RESTAPIDOMAIN + '/auth/register/verification', emailOrphone, {
+                cancelToken: source.token
             })
-            .catch(error => {
-                if (axios.isCancel(error)) {
-                    console.log('Request canceled', error.message);
-                } else {
-                    // handle error
-                    console.log(error);
-                }
-            });
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({ openVerifWindow: true });
+                })
+                .catch(error => {
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled', error.message);
+                    } else {
+                        // handle error
+                        console.log(error);
+                    }
+                }));
         return () => {
             //when the component unmounts
             console.log("component unmounted");

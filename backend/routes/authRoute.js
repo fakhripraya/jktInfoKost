@@ -8,33 +8,7 @@ const MasterUser = require('../models/masterUser.model');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const ejs = require('ejs');
-const { Client } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
-
-//Whatsapp API
-const client = new Client({ puppeteer: { headless: true } });
-client.on('qr', (qr) => {
-    // Generate and scan this code with your phone
-    console.log('QR Received: ', qr);
-    qrcode.generate(qr);
-});
-
-client.on('ready', () => {
-    console.log('Whatsapp API Client is ready!');
-});
-
-client.on('message', msg => {
-    console.log(msg.from);
-    if (msg.from == '6281934074389@c.us') {
-        for (i = 0; i < 1000; i++) {
-            client.sendMessage(msg.from, 'penipu!!');
-        }
-    }
-});
-
-
-client.initialize();
-
+const client = require('../API/waMailer');
 // get user
 router.get('/', (req, res) => {
     try {

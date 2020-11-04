@@ -69,7 +69,7 @@ export default class index extends Component {
         });
     }
 
-    onClickLogin(e) {
+    async onClickLogin(e) {
 
         const userLogin = {
             username: this.state.username,
@@ -78,7 +78,9 @@ export default class index extends Component {
 
         let source = axios.CancelToken.source()
 
-        axios.post({ RESTAPIDOMAIN } + '/auth/login', userLogin)
+        await axios.post({ RESTAPIDOMAIN } + '/auth/login', userLogin, {
+            cancelToken: source.token
+        })
             .then(response => {
                 console.log(response.data);
             })

@@ -21,7 +21,7 @@ function App() {
         <Route exact path="/register" name="Register Page" component={TheRegister} />
         <Route exact path="/dashboard" name="Dashboard" component={TheDashboard} />
       </Switch>
-    </React.Suspense>
+    </React.Suspense >
   );
 }
 
