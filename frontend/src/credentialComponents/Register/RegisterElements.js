@@ -51,7 +51,7 @@ export const Label = styled.label`
     font-size: 20px;
 `
 
-export const Input = styled.input`
+export const CustomInput = styled.input`
     margin-top: 6px;
     min-width: 22em;
     height: 37px;

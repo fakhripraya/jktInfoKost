@@ -2,7 +2,6 @@ import React from 'react';
 import { animated, useTransition } from 'react-spring'
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { usePromiseTracker } from "react-promise-tracker";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Spinner = () => {
     const classes = useStyles();
-    const { promiseInProgress } = usePromiseTracker();
     const transitions = useTransition(null, null, {
         from: { opacity: 0 },
         enter: { opacity: 1 },
@@ -28,7 +26,6 @@ const Spinner = () => {
         config: { duration: 1000 }
     })
     return transitions.map(({ key, props }) =>
-        promiseInProgress &&
         <animated.div key={key} style={props}>
             <div className={classes.root}>
                 <CircularProgress />

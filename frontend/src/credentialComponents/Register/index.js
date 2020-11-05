@@ -9,7 +9,7 @@ import {
     Form,
     FormGroup,
     Label,
-    Input,
+    CustomInput,
     Footer,
     BtnSubmit,
     SmallText,
@@ -29,6 +29,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios'
 import { RESTAPIDOMAIN } from '../../config'
 import { trackPromise } from 'react-promise-tracker';
+import NumberFormat from 'react-number-format';
+
+function NumberFormatCustom(props) {
+    const { inputRef, ...other } = props;
+
+    return (
+        <NumberFormat
+            {...other}
+            getInputRef={inputRef}
+            maxLength={6}
+            isNumericString
+        />
+    );
+}
 
 export default class index extends Component {
 
@@ -39,10 +53,12 @@ export default class index extends Component {
         this.onChangeEmailorPhone = this.onChangeEmailorPhone.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
+        this.onChangeVerificationCode = this.onChangeVerificationCode.bind(this);
         this.onClickRegister = this.onClickRegister.bind(this);
 
         this.state = {
             openVerifWindow: false,
+            verificationCode: '',
             username: '',
             email: '',
             phone: '',
@@ -164,7 +180,13 @@ export default class index extends Component {
         });
     }
 
-    async onClickRegister(e) {
+    onChangeVerificationCode(e) {
+        this.setState({
+            verificationCode: e.target.value
+        });
+    }
+
+    onClickRegister(e) {
         if (this.state.errorFlag === true) {
             this.setState({
                 errorFlag: false,
@@ -222,7 +244,7 @@ export default class index extends Component {
 
         let source = axios.CancelToken.source()
         trackPromise(
-            await axios.post(RESTAPIDOMAIN + '/auth/register/verification', emailOrphone, {
+            axios.post(RESTAPIDOMAIN + '/auth/register/verification', emailOrphone, {
                 cancelToken: source.token
             })
                 .then(response => {
@@ -245,6 +267,10 @@ export default class index extends Component {
         }
     }
 
+    onClickVerification(e) {
+
+    }
+
     render() {
         return (
             <BaseContainer>
@@ -258,19 +284,19 @@ export default class index extends Component {
                     <Form>
                         <FormGroup>
                             <Label htmlFor="username" >Nama user</Label>
-                            <Input type="text" name="username" placeholder="nama user" onChange={this.onChangeUsername} />
+                            <CustomInput type="text" name="username" placeholder="nama user" onChange={this.onChangeUsername} />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="email" >Email atau nomor hp</Label>
-                            <Input type="text" name="emailOrHp" placeholder="email atau nomer hp" onChange={this.onChangeEmailorPhone} />
+                            <CustomInput type="text" name="emailOrHp" placeholder="email atau nomer hp" onChange={this.onChangeEmailorPhone} />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="password" >Kata sandi</Label>
-                            <Input type="password" name="password" placeholder="kata sandi" onChange={this.onChangePassword} />
+                            <CustomInput type="password" name="password" placeholder="kata sandi" onChange={this.onChangePassword} />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="confirmPassword" >Konfirmasi kata sandi</Label>
-                            <Input type="password" name="confirmPassword" placeholder="konfirmasi kata sandi" onChange={this.onChangeConfirmPassword} />
+                            <CustomInput type="password" name="confirmPassword" placeholder="konfirmasi kata sandi" onChange={this.onChangeConfirmPassword} />
                         </FormGroup>
                     </Form>
                 </Content>
@@ -328,18 +354,22 @@ export default class index extends Component {
                         </DialogContentText>
                         <TextField
                             autoFocus
+                            value={this.state.verificationCode}
                             margin="dense"
                             id="verif-text-field-register"
                             label="Kode verifikasi"
                             type="text"
-                            fullWidth
+                            onChange={this.onChangeVerificationCode}
+                            InputProps={{
+                                inputComponent: NumberFormatCustom,
+                            }}
                         />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => this.setState({ openVerifWindow: false })} color="primary">
                             Batal
                         </Button>
-                        <Button onClick={() => this.setState({ openVerifWindow: false })} color="primary">
+                        <Button onClick={this.onClickVerification} color="primary">
                             Lanjut
                         </Button>
                     </DialogActions>

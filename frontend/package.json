@@ -17,6 +17,7 @@
     "react-icons": "^3.11.0",
     "react-intl": "^5.8.4",
     "react-material-ui-carousel": "^2.0.2",
+    "react-number-format": "^4.4.1",
     "react-particles-js": "^3.4.0",
     "react-promise-tracker": "^2.1.0",
     "react-redux": "^7.2.1",

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from '../src/services/redux/store'
 import { BrowserRouter } from 'react-router-dom';
-import Spinner from './Spinner';
+import PromiseSpinner from './promiseSpinner';
 
 Axios.defaults.withCredentials = true;
 
@@ -13,8 +13,8 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
+        <PromiseSpinner />
         <App />
-        <Spinner />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
