@@ -28,6 +28,7 @@ router.get('/', (req, res) => {
         }
     }
     catch (err) {
+        console.log(err);
         res.json({ message: 'Error: ' + err.message });
     }
 });
@@ -59,8 +60,9 @@ router.post('/verification', (req, res) => {
                     copyrightDate: new Date().getFullYear().toString()
                 })
                 .then(result => {
-                    console.log('mashok pa eko');
                     emailTemplate = result;
+
+                    //antara pake sendgrid atau smtp
 
                     // let transport = nodemailer.createTransport({
                     //     host: "smtp.mailtrap.io",
@@ -157,7 +159,7 @@ router.route('/register').post((req, res) => {
     })
 });
 
-router.get('/login', function (req, res, next) {
+router.post('/login', function (req, res, next) {
     passport.authenticate('local', (err, user, info) => {
         if (err) res.json({ message: 'Error: ' + res.message }); console.log(err);
         if (!user) res.json({ message: 'User tidak ditemukan' });

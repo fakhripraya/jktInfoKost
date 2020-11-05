@@ -78,7 +78,7 @@ export default class index extends Component {
 
         let source = axios.CancelToken.source()
 
-        await axios.post({ RESTAPIDOMAIN } + '/auth/login', userLogin, {
+        await axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
             cancelToken: source.token
         })
             .then(response => {
