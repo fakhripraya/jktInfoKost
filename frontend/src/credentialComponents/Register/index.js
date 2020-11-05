@@ -187,6 +187,12 @@ export default class index extends Component {
     }
 
     onClickRegister(e) {
+        if (this.state.verificationCode !== '') {
+            this.setState({
+                verificationCode: '',
+            });
+        }
+
         if (this.state.errorFlag === true) {
             this.setState({
                 errorFlag: false,
@@ -244,7 +250,7 @@ export default class index extends Component {
 
         let source = axios.CancelToken.source()
         trackPromise(
-            axios.post(RESTAPIDOMAIN + '/auth/register/verification', emailOrphone, {
+            axios.post(RESTAPIDOMAIN + '/auth/verification', emailOrphone, {
                 cancelToken: source.token
             })
                 .then(response => {
@@ -268,7 +274,35 @@ export default class index extends Component {
     }
 
     onClickVerification(e) {
+        const userInfo = {
+            email: this.state.email,
+            phone: this.state.phone,
+            username: this.state.username,
+            password: this.state.password
+        }
 
+        let source = axios.CancelToken.source()
+        trackPromise(
+            axios.post(RESTAPIDOMAIN + '/auth/register', userInfo, {
+                cancelToken: source.token
+            })
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled', error.message);
+                    } else {
+                        // handle error
+                        console.log(error);
+                    }
+                }));
+        return () => {
+            //when the component unmounts
+            console.log("component unmounted");
+            // cancel the request (the message parameter is optional)
+            source.cancel('Operation canceled by the user.');
+        }
     }
 
     render() {

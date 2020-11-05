@@ -38,7 +38,7 @@ function randomIntInc(low, high) {
     return Math.floor(Math.random() * (high - low + 1) + low)
 }
 
-router.post('/register/verification', (req, res) => {
+router.post('/verification', (req, res) => {
     try {
         console.log(req.body.email);
         let { email, phone, username } = req.body;
