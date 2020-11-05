@@ -2,7 +2,7 @@ const fs = require('fs');
 const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
-const SESSION_FILE_PATH = './wa-session.json';
+const SESSION_FILE_PATH = '../wa-session.json';
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionCfg = require(SESSION_FILE_PATH);

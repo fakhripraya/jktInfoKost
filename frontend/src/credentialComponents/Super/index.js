@@ -21,6 +21,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios'
 import { RESTAPIDOMAIN } from '../../config'
 import { QRCode } from "react-qr-svg";
+import { trackPromise } from 'react-promise-tracker';
 
 export default class index extends Component {
 
@@ -52,7 +53,7 @@ export default class index extends Component {
         });
     }
 
-    async onClickLogin(e) {
+    onClickLogin(e) {
 
         const userLogin = {
             username: this.state.username,
@@ -60,23 +61,23 @@ export default class index extends Component {
         }
 
         let source = axios.CancelToken.source()
-
-        await axios.post(RESTAPIDOMAIN + '/papi/su/log/qr', userLogin, {
-            cancelToken: source.token
-        })
-            .then(response => {
-                console.log(response.data)
-                this.setState({ Data: response.data.Data });
-                this.setState({ openWindow: true });
+        trackPromise(
+            axios.post(RESTAPIDOMAIN + '/papi/su/log/qr', userLogin, {
+                cancelToken: source.token
             })
-            .catch(error => {
-                if (axios.isCancel(error)) {
-                    console.log('Request canceled', error.message);
-                } else {
-                    // handle error
-                    console.log(error);
-                }
-            });
+                .then(response => {
+                    console.log(response.data)
+                    this.setState({ Data: response.data.message });
+                    this.setState({ openWindow: true });
+                })
+                .catch(error => {
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled', error.message);
+                    } else {
+                        // handle error
+                        console.log(error);
+                    }
+                }));
         return () => {
             //when the component unmounts
             console.log("component unmounted");

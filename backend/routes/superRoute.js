@@ -5,7 +5,7 @@ const fs = require('fs');
 
 router.post('/qr', (req, res) => {
     try {
-        const SESSION_FILE_PATH = './wa-session.json';
+        const SESSION_FILE_PATH = '../wa-session.json';
 
         if (fs.existsSync(SESSION_FILE_PATH)) {
             res.json({ message: 'Action aborted' });
@@ -17,7 +17,7 @@ router.post('/qr', (req, res) => {
                     // console.log('QR Received: ', qr);
                     // qrcode.generate(qr);
 
-                    res.json({ Data: qr })
+                    res.json({ message: qr })
                 });
             }
             else {
