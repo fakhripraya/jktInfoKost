@@ -22,6 +22,10 @@ import axios from 'axios'
 import { RESTAPIDOMAIN } from '../../config'
 import { QRCode } from "react-qr-svg";
 import { trackPromise } from 'react-promise-tracker';
+import Alert from '@material-ui/lab/Alert';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 export default class index extends Component {
 
@@ -36,9 +40,13 @@ export default class index extends Component {
         this.state = {
             username: '',
             password: '',
-            Data: '',
+            ok: '',
+            error: '',
+            errorFlag: false,
             openWindow: false,
         };
+
+        this.baseState = this.state
     }
 
     onChangeUsername(e) {
@@ -66,16 +74,26 @@ export default class index extends Component {
                 cancelToken: source.token
             })
                 .then(response => {
-                    console.log(response.data)
-                    this.setState({ Data: response.data.message });
-                    this.setState({ openWindow: true });
+                    if (response.data.error) {
+                        this.setState({ error: response.data.error });
+                        this.setState({ openWindow: true });
+                        this.setState({ errorFlag: true });
+                    }
+                    else {
+                        this.setState({ ok: response.data.message });
+                        this.setState({ openWindow: true });
+                    }
                 })
                 .catch(error => {
                     if (axios.isCancel(error)) {
-                        console.log('Request canceled', error.message);
+                        this.setState({ openWindow: true });
+                        this.setState({ errorFlag: true });
+                        this.setState({ error: 'Request canceled: ' + error.message });
                     } else {
                         // handle error
-                        console.log(error);
+                        this.setState({ openWindow: true });
+                        this.setState({ errorFlag: true });
+                        this.setState({ error: error.message });
                     }
                 }));
         return () => {
@@ -87,8 +105,7 @@ export default class index extends Component {
     }
 
     onCloseWindow(e) {
-        this.setState({ Data: '' });
-        this.setState({ openWindow: false })
+        this.setState(this.baseState)
     }
 
     render() {
@@ -120,18 +137,38 @@ export default class index extends Component {
                     {/* QR */}
                     <Dialog disableBackdropClick disableEscapeKeyDown open={this.state.openWindow} onClose={this.onCloseWindow} aria-labelledby="form-dialog-title">
                         <DialogContent>
-                            <QRCode
-                                bgColor="#FFFFFF"
-                                fgColor="#000000"
-                                level="Q"
-                                style={{ width: 256 }}
-                                value={this.state.Data}
-                            />
+                            <Collapse in={!this.state.errorFlag}>
+                                <QRCode
+                                    bgColor="#FFFFFF"
+                                    fgColor="#000000"
+                                    level="Q"
+                                    style={{ width: 256 }}
+                                    value={this.state.ok}
+                                />
+                            </Collapse>
+                            <Collapse in={this.state.errorFlag}>
+                                <Alert
+                                    style={{ marginBottom: '20px', minWidth: '22em' }}
+                                    severity="error"
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => this.setState({ errorFlag: false })}
+                                        >
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                    }
+                                >
+                                    {this.state.error}
+                                </Alert>
+                            </Collapse>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={this.onCloseWindow} color="primary">
                                 Exit
-                        </Button>
+                            </Button>
                         </DialogActions>
                     </Dialog>
                 </BaseContainer>

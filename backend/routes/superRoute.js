@@ -8,7 +8,7 @@ router.post('/qr', (req, res) => {
         const SESSION_FILE_PATH = '../wa-session.json';
 
         if (fs.existsSync(SESSION_FILE_PATH)) {
-            res.json({ message: 'Action aborted' });
+            res.json({ error: 'Action aborted' });
         }
         else {
             if (req.body.username === process.env.SUPER_ADMIN_ID && req.body.password === process.env.SUPER_ADMIN_PASSWORD) {
@@ -21,13 +21,13 @@ router.post('/qr', (req, res) => {
                 });
             }
             else {
-                res.json({ message: 'User not found' });
+                res.json({ error: 'User not found' });
             }
         }
     }
     catch (err) {
         console.log(err);
-        res.json({ message: 'Error: ' + err.message });
+        res.json({ error: 'Error: ' + err.message });
     }
 });
 
