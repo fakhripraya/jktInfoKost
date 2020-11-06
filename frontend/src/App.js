@@ -9,8 +9,7 @@ import {
   TheHome,
   TheDashboard,
   TheLogin,
-  TheRegister,
-  TheSuper
+  TheRegister
 } from './services/route'
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
         <Route exact path="/login" name="Login Page" component={TheLogin} />
         <Route exact path="/register" name="Register Page" component={TheRegister} />
         <Route exact path="/dashboard" name="Dashboard" component={TheDashboard} />
-        <Route exact path="/papi/su/log/super" name="Papi" component={TheSuper} />
       </Switch>
     </React.Suspense >
   );

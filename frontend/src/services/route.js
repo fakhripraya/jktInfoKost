@@ -32,18 +32,9 @@ const TheRegister = React.lazy(() => {
         .then(([moduleExports]) => moduleExports);
 });
 
-const TheSuper = React.lazy(() => {
-    return Promise.all([
-        import('../pages/super'),
-        new Promise(resolve => setTimeout(resolve, 0))
-    ])
-        .then(([moduleExports]) => moduleExports);
-});
-
 export {
     TheHome,
     TheDashboard,
     TheLogin,
-    TheRegister,
-    TheSuper
+    TheRegister
 }

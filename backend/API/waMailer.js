@@ -1,24 +1,34 @@
 const fs = require('fs');
 const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-
-const SESSION_FILE_PATH = '../wa-session.json';
+const SESSION_FILE_PATH = './API/wa-session.json';
+const REQUIRE_PATH = './wa-session.json';
 let sessionCfg;
+
 if (fs.existsSync(SESSION_FILE_PATH)) {
-    sessionCfg = require(SESSION_FILE_PATH);
+    sessionCfg = require(REQUIRE_PATH);
 }
 
 //Whatsapp API
 const client = new Client({ puppeteer: { headless: true }, session: sessionCfg });
 
+client.on('qr', (qr) => {
+    // SCAN SEBELUM PUBLISH SERVER PRODUCTION
+    // Generate and scan this code with your phone
+    console.log('QR Received: ', qr);
+    qrcode.generate(qr);
+});
+
 client.on('authenticated', (session) => {
     console.log('AUTHENTICATED', session);
     sessionCfg = session;
-    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
-        if (err) {
-            console.error(err);
-        }
-    });
+    if (!fs.existsSync(SESSION_FILE_PATH)) {
+        fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
+    }
 });
 
 client.on('auth_failure', msg => {
@@ -31,5 +41,3 @@ client.on('ready', () => {
 });
 
 client.initialize();
-
-module.exports = client;

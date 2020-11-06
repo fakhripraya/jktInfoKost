@@ -74,11 +74,9 @@ app.use(express.static("emailTemplate"));
 
 //Route list
 const authRouter = require('./routes/authRoute');
-const superRouter = require('./routes/superRoute');
 
 //Url routes
 app.use('/auth', authRouter);
-app.use('/papi/su/log', superRouter);
 
 //---------------------------------------------------END OF ROUTE SETTINGS---------------------------------------------------
 /*---------------------------------------------------END OF APPLICATION SETTINGS---------------------------------------------------*/
