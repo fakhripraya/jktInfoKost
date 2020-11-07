@@ -9,39 +9,37 @@ const nodemailer = require('nodemailer');
 const path = require('path');
 const ejs = require('ejs');
 const client = require('../API/waMailer');
-// get user
-router.get('/', (req, res) => {
-    try {
-        if (!req.user) {
-            res.json({ user: null, userInit: null });
-        }
-        else {
-            MasterUser.findById(req.user.id)
-                .then((user) => {
-                    const username = user.username;
-                    let userInitial = username.match(/\b(\w)/g);;
-                    userInitial = userInitial.join('');
+const bcrypt = require('bcryptjs');
 
-                    res.json({ user: user, userInit: userInitial });
-                })
-                .catch(err => res.status(400).json({ message: 'Error: ' + err }));
-        }
-    }
-    catch (err) {
-        console.log(err);
-        res.json({ message: 'Error: ' + err.message });
-    }
-});
-
-// auth verification
-
+// custom functions
 function randomIntInc(low, high) {
     return Math.floor(Math.random() * (high - low + 1) + low)
 }
 
-router.post('/verification', (req, res) => {
+// check existing user middleware
+const userExistCheck = (req, res, next) => {
     try {
-        console.log(req.body.email);
+        MasterUser.findOne({ username: req.body.username })
+            .then((doc) => {
+                if (doc) {
+                    res.json({ error: 'User sudah pernah dibuat' });
+                    res.end();
+                }
+                else {
+                    next();
+                }
+            })
+            .catch(err => res.status(400).json({ error: 'Error: ' + err }));
+    }
+    catch (err) {
+        console.log(err);
+        res.json({ error: 'Error: ' + err.message });
+    }
+};
+
+// auth verification
+router.post('/verification', userExistCheck, (req, res) => {
+    try {
         let { email, phone, username } = req.body;
 
         let verificationCode = '';
@@ -93,16 +91,14 @@ router.post('/verification', (req, res) => {
                             console.log(err);
                             res.json({ error: err.message });
                         } else {
-                            console.log(info);
-                            res.json({ info: info })
+                            res.json({ message: info });
                         }
                     });
                 })
                 .catch(err => {
                     console.log(err);
                     res.status(400).json({
-                        message: 'Error Rendering emailTemplate',
-                        error: err.message
+                        error: 'Error Rendering emailTemplate' + err.message
                     });
                 });
         }
@@ -117,11 +113,13 @@ router.post('/verification', (req, res) => {
                 let phoneStr = phone.substring(1, phone.length);
                 client.sendMessage('62' + phoneStr.toString() + '@c.us', 'Kode verifikasi anda : ' + verificationCode);
             }
+
+            res.end();
         }
     }
     catch (err) {
         console.log(err);
-        res.json({ message: 'Error: ' + err.message });
+        res.json({ error: 'Error: ' + err.message });
     }
 });
 
@@ -132,45 +130,73 @@ router.get('/logout', (req, res) => {
         res.json({ message: 'Successfully logged out.' });
     }
     catch (err) {
-        res.json({ message: 'Error: ' + err.message });
+        res.json({ error: 'Error: ' + err.message });
     }
 });
 
 // internal auth
-router.route('/register').post((req, res) => {
-    MasterUser.findOne({
-        username: req.body.username
-    }, async (err, doc) => {
-        if (err) res.json({ message: 'Error: ' + res.message }); console.log(err);
-        if (doc) res.json({ message: 'User sudah pernah dibuat' });
-        if (!doc) {
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+router.route('/register').post(async (req, res) => {
+    try {
+        let { user, verificationCode } = req.body;
+
+        if (verificationCode === req.session.tempVrfCode) {
+            const hashedPassword = await bcrypt.hash(user.password, 10);
             const newUser = new MasterUser({
-                username: req.body.username,
+                username: user.username,
                 password: hashedPassword,
-                externalId: 'None',
+                displayName: user.username,
+                email: user.email,
+                phone: user.phone,
+                age: -1,
                 externalProvider: 0,
                 RoleId: 0,
                 isDelete: false
             });
-            await MasterUser.save();
-            console.log('User: ' + newUser.username + ' berhasil dibuat');
+            await newUser.save();
+
+            req.session.destroy();
+            res.json({ message: 'Registrasi sukses' });
         }
-    })
+        else {
+            res.json({ error: 'Kode verifikasi salah' });
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.json({ error: 'Error: ' + err.message });
+    }
 });
 
 router.post('/login', function (req, res, next) {
-    passport.authenticate('local', (err, user, info) => {
-        if (err) res.json({ message: 'Error: ' + res.message }); console.log(err);
-        if (!user) res.json({ message: 'User tidak ditemukan' });
-        else {
-            req.logIn(user, err => {
-                if (err) res.json({ message: 'Error: ' + res.message });
-                res.json({ message: 'Berhasil masuk' });
-                console.log(req.user);
-            })
-        }
-    })(req, res, next);
+    try {
+        console.log('masuk1');
+        passport.authenticate('local', (err, user, info) => {
+            console.log('masuk2');
+            if (err) {
+                console.log(err);
+                res.json({ error: 'Error: ' + res.message });
+            }
+            if (!user) {
+                res.json({ error: 'User tidak ditemukan' });
+                console.log('masuk3');
+            }
+            else {
+                console.log('masuk4');
+                req.logIn(user, err => {
+                    if (err) {
+                        console.log(err);
+                        res.json({ error: 'Error: ' + res.message });
+                    }
+                    console.log(req.user);
+                    res.json({ message: 'Berhasil masuk' });
+                })
+            }
+        })(req, res, next);
+    }
+    catch (err) {
+        console.log(err);
+        res.json({ error: 'Error: ' + err.message });
+    }
 });
 
 // external auth
@@ -187,7 +213,7 @@ router.get('/google', function (req, res) {
     }
     catch (err) {
         console.log(err);
-        res.json({ message: 'Error: ' + err.message });
+        res.json({ error: 'Error: ' + err.message });
     }
 });
 
@@ -198,7 +224,7 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.json({ message: 'Error: ' + err.message });
+        res.json({ error: 'Error: ' + err.message });
     }
 });
 

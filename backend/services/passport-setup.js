@@ -9,15 +9,25 @@ const MasterUser = require('../models/masterUser.model');
 
 // Serializing
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    try {
+        done(null, user.id);
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 // Deserializing
 passport.deserializeUser((id, done) => {
-    MasterUser.findById(id)
-        .then((user) => {
-            done(null, user);
-        });
+    try {
+        MasterUser.findById(id)
+            .then((user) => {
+                done(null, user);
+            });
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 /*STRATEGIES*/
@@ -25,19 +35,25 @@ passport.deserializeUser((id, done) => {
 //Local
 passport.use(
     new LocalStrategy((username, password, done) => {
-        MasterUser.findOne({ username: username }, function (err, user) {
-            if (err) throw err;
-            if (!user) return done(null, false);
-            bcrypt.compare(password, user.password, (err, result) => {
-                if (err) throw err;
-                if (result === true) {
-                    return done(null, user);
-                }
-                else {
-                    return done(null, false);
-                }
+        try {
+            console.log('masuk di passport')
+            MasterUser.findOne({ username: username }, function (err, user) {
+                if (err) console.log(err);
+                if (!user) return done(null, false);
+                bcrypt.compare(password, user.password, (err, result) => {
+                    if (err) console.log(err);
+                    if (result === true) {
+                        return done(null, user);
+                    }
+                    else {
+                        return done(null, false);
+                    }
+                });
             });
-        });
+        }
+        catch (err) {
+            console.log(err);
+        }
     })
 );
 
@@ -48,26 +64,30 @@ passport.use(
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }, (accessToken, refreshToken, profile, done) => {
-
-        MasterUser.findOne({ externalId: profile.id, externalProvider: 1 })
-            .then((currentUser) => {
-                if (currentUser) {
-                    console.log('User ' + currentUser.username + ' berhasil dibuat');
-                    done(null, currentUser);
-                } else {
-                    new MasterUser({
-                        username: profile.displayName,
-                        password: '',
-                        externalId: profile.id,
-                        externalProvider: 1,
-                        RoleId: 0,
-                        isDelete: false
-                    }).save()
-                        .then((newUser) => {
-                            console.log('User baru berhasil dibuat: ' + newUser.username)
-                        });
-                    done(null, newUser);
-                }
-            })
+        try {
+            console.log('masuk di passport')
+            MasterUser.findOne({ externalId: profile.id, externalProvider: 1 })
+                .then((currentUser) => {
+                    if (currentUser) {
+                        done(null, currentUser);
+                    } else {
+                        const newUser = new MasterUser({
+                            username: profile.id,
+                            password: '',
+                            displayName: profile.displayName,
+                            email: profile.email,
+                            phone: '',
+                            age: -1,
+                            externalProvider: 1,
+                            RoleId: 0,
+                            isDelete: false
+                        }).save()
+                        done(null, newUser);
+                    }
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
     })
 );

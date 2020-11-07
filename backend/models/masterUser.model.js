@@ -10,13 +10,19 @@ const masterUserSchema = new Schema({
         minlength: 3
     },
     password: {
+        type: String
+    },
+    displayName: {
         type: String,
+    },
+    email: {
+        type: String
+    },
+    phone: {
+        type: String
     },
     age: {
         type: Number
-    },
-    externalId: {
-        type: String
     },
     externalProvider: {
         type: Number,

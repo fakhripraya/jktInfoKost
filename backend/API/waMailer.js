@@ -5,6 +5,8 @@ const SESSION_FILE_PATH = './API/wa-session.json';
 const REQUIRE_PATH = './wa-session.json';
 let sessionCfg;
 
+//DELETE wa-session.json untuk wa mailer baru
+
 if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionCfg = require(REQUIRE_PATH);
 }

@@ -55,6 +55,7 @@ export default class index extends Component {
         this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
         this.onChangeVerificationCode = this.onChangeVerificationCode.bind(this);
         this.onClickRegister = this.onClickRegister.bind(this);
+        this.onClickVerification = this.onClickVerification.bind(this);
 
         this.state = {
             openVerifWindow: false,
@@ -69,7 +70,10 @@ export default class index extends Component {
             errorMessage: '',
             warningFlag: false,
             warningMessage: '',
-            warningType: 'warning'
+            warningType: 'warning',
+            dialogFlag: false,
+            dialogMessage: '',
+            dialogSeverity: 'error'
         };
     }
 
@@ -118,10 +122,7 @@ export default class index extends Component {
         }
 
         this.setState({
-            phone: ''
-        });
-
-        this.setState({
+            phone: '',
             email: ''
         });
         return;
@@ -254,8 +255,16 @@ export default class index extends Component {
                 cancelToken: source.token
             })
                 .then(response => {
-                    console.log(response.data);
-                    this.setState({ openVerifWindow: true });
+                    if (response.data.message) {
+                        this.setState({ openVerifWindow: true });
+                    }
+                    else {
+                        this.setState({
+                            dialogFlag: true,
+                            dialogMessage: response.data.error,
+                            dialogSeverity: 'error'
+                        });
+                    }
                 })
                 .catch(error => {
                     if (axios.isCancel(error)) {
@@ -274,11 +283,22 @@ export default class index extends Component {
     }
 
     onClickVerification(e) {
+
         const userInfo = {
-            email: this.state.email,
-            phone: this.state.phone,
-            username: this.state.username,
-            password: this.state.password
+            user: {
+                email: this.state.email,
+                phone: this.state.phone,
+                username: this.state.username,
+                password: this.state.password
+            },
+            verificationCode: this.state.verificationCode
+        }
+
+        const userLogin = {
+            user: {
+                username: this.state.username,
+                password: this.state.password
+            }
         }
 
         let source = axios.CancelToken.source()
@@ -287,7 +307,42 @@ export default class index extends Component {
                 cancelToken: source.token
             })
                 .then(response => {
-                    console.log(response.data);
+                    if (response.data.message) {
+                        axios.all([
+                            axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
+                                cancelToken: source.token
+                            })
+                        ])
+                            .then(response => {
+                                //this will be executed only when all requests are complete
+                                if (response.data.message) {
+                                    console.log(response.data.message);
+                                    console.log('berhasil loggin');
+                                }
+                                else {
+                                    this.setState({
+                                        dialogFlag: true,
+                                        dialogMessage: response.data.error,
+                                        dialogSeverity: 'error'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                if (axios.isCancel(error)) {
+                                    console.log('Request canceled', error.message);
+                                } else {
+                                    // handle error
+                                    console.log(error);
+                                }
+                            })
+                    }
+                    else {
+                        this.setState({
+                            dialogFlag: true,
+                            dialogMessage: response.data.error,
+                            dialogSeverity: 'error'
+                        });
+                    }
                 })
                 .catch(error => {
                     if (axios.isCancel(error)) {
@@ -308,6 +363,7 @@ export default class index extends Component {
     render() {
         return (
             <BaseContainer>
+
                 <Header>
                     Daftar Sekarang
                 </Header>
@@ -408,6 +464,31 @@ export default class index extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+                {/* Message Dialog */}
+                <Dialog disableBackdropClick disableEscapeKeyDown open={this.state.dialogFlag} onClose={() => this.setState({ dialogFlag: false })} aria-labelledby="form-dialog-title">
+                    <DialogContent>
+                        <Alert
+                            style={{ marginBottom: '20px', minWidth: '22em' }}
+                            severity={this.state.dialogSeverity}
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => this.setState({
+                                        dialogFlag: false
+                                    })}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                        >
+                            {this.state.dialogMessage}
+                        </Alert>
+                    </DialogContent>
+                </Dialog>
+
             </BaseContainer>
         )
     }
