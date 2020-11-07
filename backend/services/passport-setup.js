@@ -36,12 +36,17 @@ passport.deserializeUser((id, done) => {
 passport.use(
     new LocalStrategy((username, password, done) => {
         try {
-            console.log('masuk di passport')
             MasterUser.findOne({ username: username }, function (err, user) {
-                if (err) console.log(err);
-                if (!user) return done(null, false);
+                if (err) {
+                    console.log(err);
+                }
+                if (!user) {
+                    return done(null, false);
+                }
                 bcrypt.compare(password, user.password, (err, result) => {
-                    if (err) console.log(err);
+                    if (err) {
+                        console.log(err);
+                    }
                     if (result === true) {
                         return done(null, user);
                     }

@@ -127,7 +127,7 @@ router.post('/verification', userExistCheck, (req, res) => {
 router.get('/logout', (req, res) => {
     try {
         req.logout();
-        res.json({ message: 'Successfully logged out.' });
+        res.json({ message: 'Berhasil Keluar' });
     }
     catch (err) {
         res.json({ error: 'Error: ' + err.message });
@@ -152,6 +152,7 @@ router.route('/register').post(async (req, res) => {
                 RoleId: 0,
                 isDelete: false
             });
+
             await newUser.save();
 
             req.session.destroy();
@@ -169,26 +170,23 @@ router.route('/register').post(async (req, res) => {
 
 router.post('/login', function (req, res, next) {
     try {
-        console.log('masuk1');
         passport.authenticate('local', (err, user, info) => {
-            console.log('masuk2');
             if (err) {
                 console.log(err);
                 res.json({ error: 'Error: ' + res.message });
             }
             if (!user) {
                 res.json({ error: 'User tidak ditemukan' });
-                console.log('masuk3');
             }
             else {
-                console.log('masuk4');
                 req.logIn(user, err => {
                     if (err) {
                         console.log(err);
                         res.json({ error: 'Error: ' + res.message });
                     }
-                    console.log(req.user);
-                    res.json({ message: 'Berhasil masuk' });
+                    else {
+                        res.json({ message: 'Berhasil masuk' });
+                    }
                 })
             }
         })(req, res, next);

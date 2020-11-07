@@ -1,5 +1,21 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import loginImg from './register.svg'
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Alert from '@material-ui/lab/Alert';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { RESTAPIDOMAIN } from '../../config'
+import { trackPromise } from 'react-promise-tracker';
+import NumberFormat from 'react-number-format';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import { Redirect } from "react-router-dom";
 import {
     BaseContainer,
     Header,
@@ -15,21 +31,6 @@ import {
     SmallText,
     HyperText
 } from './RegisterElements'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Alert from '@material-ui/lab/Alert';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import axios from 'axios'
-import { RESTAPIDOMAIN } from '../../config'
-import { trackPromise } from 'react-promise-tracker';
-import NumberFormat from 'react-number-format';
 
 function NumberFormatCustom(props) {
     const { inputRef, ...other } = props;
@@ -73,8 +74,11 @@ export default class index extends Component {
             warningType: 'warning',
             dialogFlag: false,
             dialogMessage: '',
-            dialogSeverity: 'error'
+            dialogSeverity: 'error',
+            redirect: false
         };
+
+        this.baseState = this.state;
     }
 
     onChangeUsername(e) {
@@ -260,6 +264,7 @@ export default class index extends Component {
                     }
                     else {
                         this.setState({
+                            openVerifWindow: false,
                             dialogFlag: true,
                             dialogMessage: response.data.error,
                             dialogSeverity: 'error'
@@ -270,14 +275,11 @@ export default class index extends Component {
                     if (axios.isCancel(error)) {
                         console.log('Request canceled', error.message);
                     } else {
-                        // handle error
                         console.log(error);
                     }
                 }));
         return () => {
-            //when the component unmounts
             console.log("component unmounted");
-            // cancel the request (the message parameter is optional)
             source.cancel('Operation canceled by the user.');
         }
     }
@@ -295,10 +297,8 @@ export default class index extends Component {
         }
 
         const userLogin = {
-            user: {
-                username: this.state.username,
-                password: this.state.password
-            }
+            username: this.state.username,
+            password: this.state.password
         }
 
         let source = axios.CancelToken.source()
@@ -308,16 +308,14 @@ export default class index extends Component {
             })
                 .then(response => {
                     if (response.data.message) {
-                        axios.all([
-                            axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
-                                cancelToken: source.token
-                            })
-                        ])
+                        axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
+                            cancelToken: source.token
+                        })
                             .then(response => {
-                                //this will be executed only when all requests are complete
                                 if (response.data.message) {
-                                    console.log(response.data.message);
-                                    console.log('berhasil loggin');
+                                    this.setState({
+                                        redirect: true
+                                    });
                                 }
                                 else {
                                     this.setState({
@@ -331,7 +329,6 @@ export default class index extends Component {
                                 if (axios.isCancel(error)) {
                                     console.log('Request canceled', error.message);
                                 } else {
-                                    // handle error
                                     console.log(error);
                                 }
                             })
@@ -353,14 +350,16 @@ export default class index extends Component {
                     }
                 }));
         return () => {
-            //when the component unmounts
             console.log("component unmounted");
-            // cancel the request (the message parameter is optional)
             source.cancel('Operation canceled by the user.');
         }
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to='/' />
+        }
+
         return (
             <BaseContainer>
 
