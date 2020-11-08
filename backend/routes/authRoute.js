@@ -168,7 +168,7 @@ router.route('/register').post(async (req, res) => {
     }
 });
 
-router.post('/login', function (req, res, next) {
+router.post('/login', userExistCheck, function (req, res, next) {
     try {
         passport.authenticate('local', (err, user, info) => {
             if (err) {
