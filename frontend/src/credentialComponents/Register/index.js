@@ -222,7 +222,7 @@ export default class index extends Component {
 
             this.setState({
                 errorFlag: true,
-                errorMessage: 'E-mail atau nomor hp tidak valid'
+                errorMessage: 'E-mail atau nomor HP tidak valid'
             });
             return;
         }
@@ -250,7 +250,8 @@ export default class index extends Component {
         const emailOrphone = {
             email: this.state.email,
             phone: this.state.phone,
-            username: this.state.username
+            username: this.state.username,
+            actionCode: 0
         }
 
         let source = axios.CancelToken.source()
@@ -308,30 +309,31 @@ export default class index extends Component {
             })
                 .then(response => {
                     if (response.data.message) {
-                        axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
-                            cancelToken: source.token
-                        })
-                            .then(response => {
-                                if (response.data.message) {
-                                    this.setState({
-                                        redirect: true
-                                    });
-                                }
-                                else {
-                                    this.setState({
-                                        dialogFlag: true,
-                                        dialogMessage: response.data.error,
-                                        dialogSeverity: 'error'
-                                    });
-                                }
+                        trackPromise(
+                            axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
+                                cancelToken: source.token
                             })
-                            .catch(error => {
-                                if (axios.isCancel(error)) {
-                                    console.log('Request canceled', error.message);
-                                } else {
-                                    console.log(error);
-                                }
-                            })
+                                .then(response => {
+                                    if (response.data.message) {
+                                        this.setState({
+                                            redirect: true
+                                        });
+                                    }
+                                    else {
+                                        this.setState({
+                                            dialogFlag: true,
+                                            dialogMessage: response.data.error,
+                                            dialogSeverity: 'error'
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    if (axios.isCancel(error)) {
+                                        console.log('Request canceled', error.message);
+                                    } else {
+                                        console.log(error);
+                                    }
+                                }));
                     }
                     else {
                         this.setState({

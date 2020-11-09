@@ -22,8 +22,14 @@ const userExistCheck = (req, res, next) => {
         MasterUser.findOne({ username: req.body.username })
             .then((doc) => {
                 if (doc) {
-                    res.json({ error: 'User sudah pernah dibuat' });
-                    res.end();
+                    if (req.body.actionCode === 0) {
+                        //register action
+                        res.json({ error: 'User sudah pernah dibuat' }).end();
+                    }
+                    else {
+                        //login action
+                        next();
+                    }
                 }
                 else {
                     next();
@@ -105,13 +111,13 @@ router.post('/verification', userExistCheck, (req, res) => {
         else {
             //format phone number to whatsapp format
             req.session.tempVrfCode = verificationCode;
+            let phoneStr = phone.substring(1, phone.length);
             if (phone.includes('+62')) {
-                let phoneStr = phone.substring(1, phone.length);
                 client.sendMessage(phoneStr.toString() + '@c.us', 'Kode verifikasi anda : ' + verificationCode);
             }
             else {
-                let phoneStr = phone.substring(1, phone.length);
                 client.sendMessage('62' + phoneStr.toString() + '@c.us', 'Kode verifikasi anda : ' + verificationCode);
+                // client.sendMessage('62' + phoneStr.toString() + '@c.us', 'Bang!!!!2}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX82}DUgUeN7@8CpH(A;rR(^jw_n%2EG#V@2/A8BF^/m2as:(R2@.A).M$;jneG.2nyzM>R9.q#zq<}-tY$}&E$j[WjdSQ;a3~r?=8W3,g(<:78anC@)XT;P?^SGAtG*sX8');
             }
 
             res.end();
@@ -176,7 +182,7 @@ router.post('/login', userExistCheck, function (req, res, next) {
                 res.json({ error: 'Error: ' + res.message });
             }
             if (!user) {
-                res.json({ error: 'User tidak ditemukan' });
+                res.json({ error: 'User tidak ditemukan atau password salah' });
             }
             else {
                 req.logIn(user, err => {

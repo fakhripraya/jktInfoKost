@@ -21,8 +21,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Alert from '@material-ui/lab/Alert';
 import axios from 'axios'
 import { RESTAPIDOMAIN } from '../../config'
+import { trackPromise } from 'react-promise-tracker';
+import { Redirect } from "react-router-dom";
 
 export default class index extends Component {
 
@@ -42,7 +47,13 @@ export default class index extends Component {
             forgotPasswordData: '',
             username: '',
             password: '',
+            dialogFlag: false,
+            dialogMessage: '',
+            dialogSeverity: 'error',
+            redirect: false
         };
+
+        this.baseState = this.state;
     }
 
     onChangeUsername(e) {
@@ -69,29 +80,44 @@ export default class index extends Component {
         });
     }
 
-    async onClickLogin(e) {
+    onClickLogin(e) {
 
         const userLogin = {
             username: this.state.username,
-            password: this.state.password
+            password: this.state.password,
+            actionCode: 1
         }
 
         let source = axios.CancelToken.source()
-
-        await axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
-            cancelToken: source.token
-        })
-            .then(response => {
-                console.log(response.data);
+        trackPromise(
+            axios.post(RESTAPIDOMAIN + '/auth/login', userLogin, {
+                cancelToken: source.token
             })
-            .catch(error => {
-                if (axios.isCancel(error)) {
-                    console.log('Request canceled', error.message);
-                } else {
-                    // handle error
-                    console.log(error);
-                }
-            });
+                .then(response => {
+                    if (response.data.message) {
+                        if (response.data.message) {
+                            this.setState({
+                                redirect: true
+                            });
+                        }
+                    }
+                    else {
+                        this.setState({
+                            openVerifWindow: false,
+                            dialogFlag: true,
+                            dialogMessage: response.data.error,
+                            dialogSeverity: 'error'
+                        });
+                    }
+                })
+                .catch(error => {
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled', error.message);
+                    } else {
+                        // handle error
+                        console.log(error);
+                    }
+                }));
         return () => {
             //when the component unmounts
             console.log("component unmounted");
@@ -101,6 +127,11 @@ export default class index extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to='/' />
+        }
+
+
         return (
             <BaseContainer>
                 <Header>
@@ -178,6 +209,30 @@ export default class index extends Component {
                             Lanjut
                         </Button>
                     </DialogActions>
+                </Dialog>
+
+                {/* Message Dialog */}
+                <Dialog disableBackdropClick disableEscapeKeyDown open={this.state.dialogFlag} onClose={() => this.setState({ dialogFlag: false })} aria-labelledby="form-dialog-title">
+                    <DialogContent>
+                        <Alert
+                            style={{ marginBottom: '20px', minWidth: '22em' }}
+                            severity={this.state.dialogSeverity}
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => this.setState({
+                                        dialogFlag: false
+                                    })}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                        >
+                            {this.state.dialogMessage}
+                        </Alert>
+                    </DialogContent>
                 </Dialog>
             </BaseContainer>
         )

@@ -43,3 +43,5 @@ client.on('ready', () => {
 });
 
 client.initialize();
+
+module.exports = client;
