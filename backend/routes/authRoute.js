@@ -66,17 +66,6 @@ router.post('/verification', userExistCheck, (req, res) => {
                 .then(result => {
                     emailTemplate = result;
 
-                    //antara pake sendgrid atau smtp
-
-                    // let transport = nodemailer.createTransport({
-                    //     host: "smtp.mailtrap.io",
-                    //     port: 2525,
-                    //     auth: {
-                    //         user: "978d5f0612f11b",
-                    //         pass: "47df14605d450b"
-                    //     }
-                    // });
-
                     let transport = nodemailer.createTransport({
                         host: "smtp.gmail.com",
                         port: 587,
@@ -204,14 +193,13 @@ router.post('/login', userExistCheck, function (req, res, next) {
 });
 
 // external auth
+//Google
 router.get('/google', function (req, res) {
     try {
-        // Create an OAuth2 client object from the credentials in our config file
         const oauth2Client = new OAuth2(CONFIG.oauth2Credentials.client_id, CONFIG.oauth2Credentials.client_secret, CONFIG.oauth2Credentials.redirect_uris[0]);
-        // Obtain the google login link to which we'll send our users to give us access
         const loginLink = oauth2Client.generateAuthUrl({
-            access_type: 'offline', // Indicates that we need to be able to access data continously without the user constantly giving us consent
-            scope: CONFIG.oauth2Credentials.scopes // Using the access scopes from our config file
+            access_type: 'offline',
+            scope: CONFIG.oauth2Credentials.scopes
         });
         return res.send(loginLink);
     }
@@ -231,5 +219,15 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
         res.json({ error: 'Error: ' + err.message });
     }
 });
+
+//Facebook
+router.get('/facebook', passport.authenticate('facebook'));
+
+// callback route for facebook to redirect to
+router.get('/facebook/redirect',
+    passport.authenticate('facebook', {
+        successRedirect: process.env.FRONTEND_URL + process.env.FRONTEND_PORT + '/',
+        failureRedirect: process.env.FRONTEND_URL + process.env.FRONTEND_PORT + '/login'
+    }));
 
 module.exports = router;

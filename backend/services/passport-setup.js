@@ -2,9 +2,9 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20');
 const MasterUser = require('../models/masterUser.model');
-
 /*COOKIE*/
 
 // Serializing
@@ -20,6 +20,7 @@ passport.serializeUser((user, done) => {
 // Deserializing
 passport.deserializeUser((id, done) => {
     try {
+        console.log('masuk1');
         MasterUser.findById(id)
             .then((user) => {
                 done(null, user);
@@ -70,8 +71,7 @@ passport.use(
         clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }, (accessToken, refreshToken, profile, done) => {
         try {
-            console.log('masuk di passport')
-            MasterUser.findOne({ externalId: profile.id, externalProvider: 1 })
+            MasterUser.findOne({ username: profile.id, externalProvider: 1 })
                 .then((currentUser) => {
                     if (currentUser) {
                         done(null, currentUser);
@@ -80,7 +80,7 @@ passport.use(
                             username: profile.id,
                             password: '',
                             displayName: profile.displayName,
-                            email: profile.email,
+                            email: '',
                             phone: '',
                             age: -1,
                             externalProvider: 1,
@@ -96,3 +96,37 @@ passport.use(
         }
     })
 );
+
+//Facebook
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: '/auth/facebook/redirect',
+},
+    function (accessToken, refreshToken, profile, done) {
+        try {
+            MasterUser.findOne({ username: profile.id, externalProvider: 2 })
+                .then((currentUser) => {
+                    if (currentUser) {
+                        done(null, currentUser);
+                    } else {
+                        const newUser = new MasterUser({
+                            username: profile.id,
+                            password: '',
+                            displayName: profile.displayName,
+                            email: '',
+                            phone: '',
+                            age: -1,
+                            externalProvider: 2,
+                            RoleId: 0,
+                            isDelete: false
+                        }).save()
+                        done(null, newUser);
+                    }
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+));

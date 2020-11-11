@@ -45,26 +45,7 @@ export default class index extends Component {
     }
 
     onClickFacebook(e) {
-        let source = axios.CancelToken.source()
-
-        axios.get(RESTAPIDOMAIN + '/auth/facebook')
-            .then(res =>
-                console.log(res.data)
-            )
-            .catch(error => {
-                if (axios.isCancel(error)) {
-                    console.log('Request canceled', error.message);
-                } else {
-                    // handle error
-                    console.log(error);
-                }
-            });
-        return () => {
-            //when the component unmounts
-            console.log("component unmounted");
-            // cancel the request (the message parameter is optional)
-            source.cancel('Operation canceled by the user.');
-        }
+        window.location.href = RESTAPIDOMAIN + "/auth/facebook";
     }
 
     render() {
