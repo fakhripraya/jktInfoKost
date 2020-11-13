@@ -20,7 +20,6 @@ passport.serializeUser((user, done) => {
 // Deserializing
 passport.deserializeUser((id, done) => {
     try {
-        console.log('masuk1');
         MasterUser.findById(id)
             .then((user) => {
                 done(null, user);
