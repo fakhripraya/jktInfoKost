@@ -11,10 +11,9 @@ export const checkAuthenticateUser = () => {
     }
 }
 
-export const authenticateUser = ({ user, userInit }) => {
+export const authenticateUser = ({ user }) => {
     return {
         type: AUTHENTICATED,
-        userInit: userInit,
         payload: user
     }
 }

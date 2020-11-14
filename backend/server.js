@@ -75,9 +75,11 @@ app.use(express.static("emailTemplate"));
 
 //Route list
 const authRouter = require('./routes/authRoute');
+const userRouter = require('./routes/userRoute');
 
 //Url routes
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 //---------------------------------------------------END OF ROUTE SETTINGS---------------------------------------------------
 /*---------------------------------------------------END OF APPLICATION SETTINGS---------------------------------------------------*/

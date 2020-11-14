@@ -20,7 +20,7 @@ import {
 } from './NavbarElements';
 import {
     switchPage
-} from '../../services/redux/home_state/actions'
+} from '../../services/redux'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';

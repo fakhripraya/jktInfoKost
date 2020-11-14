@@ -8,7 +8,7 @@ import {
     switchPage
 } from './home_state/actions'
 
-export default {
+export {
     checkAuthenticateUser,
     authenticateUser,
     unauthenticateUser,

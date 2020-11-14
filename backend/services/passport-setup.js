@@ -85,7 +85,9 @@ passport.use(
                             externalProvider: 1,
                             RoleId: 0,
                             isDelete: false
-                        }).save()
+                        });
+
+                        newUser.save();
                         done(null, newUser);
                     }
                 })
@@ -119,7 +121,9 @@ passport.use(new FacebookStrategy({
                             externalProvider: 2,
                             RoleId: 0,
                             isDelete: false
-                        }).save()
+                        });
+
+                        newUser.save();
                         done(null, newUser);
                     }
                 })
