@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaBars } from 'react-icons/fa'
 import {
     Nav,
@@ -19,7 +19,8 @@ import {
     DrawerWrapper
 } from './NavbarElements';
 import {
-    switchPage
+    switchPage,
+    unauthenticateUser
 } from '../../services/redux'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,6 +34,9 @@ import LandscapeIcon from '@material-ui/icons/Landscape';
 import HouseIcon from '@material-ui/icons/House';
 import PhoneIcon from '@material-ui/icons/Phone';
 import PolicyIcon from '@material-ui/icons/Policy';
+import { trackPromise } from 'react-promise-tracker'
+import axios from 'axios'
+import { RESTAPIDOMAIN } from '../../config'
 
 const useStyles = makeStyles({
     list: {
@@ -44,7 +48,7 @@ const useStyles = makeStyles({
 });
 
 const Navbar = () => {
-
+    const isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
     const dispatch = useDispatch()
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -58,12 +62,60 @@ const Navbar = () => {
         dispatch(switchPage(value));
     };
 
+    const handleLogout = () => {
+        let source = axios.CancelToken.source()
+
+        trackPromise(
+            axios.get(RESTAPIDOMAIN + '/auth/logout', {
+                cancelToken: source.token
+            })
+                .then(response => {
+                    if (!response.data.error) {
+                        dispatch(unauthenticateUser());
+                    }
+                    else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(error => {
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled', error.message);
+                    } else {
+                        console.log(error);
+                    }
+                }));
+        return () => {
+            //when the component unmounts
+            console.log("component unmounted");
+            // cancel the request (the message parameter is optional)
+            source.cancel('Operation canceled by the user.');
+        }
+    };
+
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
 
         setState({ ...state, [anchor]: open });
+    };
+
+    const authButton = () => {
+        if (isLoggedIn) {
+            return (
+                <NavBtn>
+                    <NavBtnLinkDaftar onClick={() => handleLogout()}>Keluar</NavBtnLinkDaftar>
+                </NavBtn>
+            )
+        }
+        else {
+            return (
+                <NavBtn>
+                    <NavBtnLinkMasuk to="/login"><SpanMasuk>Masuk</SpanMasuk></NavBtnLinkMasuk>
+                    <NavBtnLinkDaftar to="/register">Daftar</NavBtnLinkDaftar>
+                </NavBtn>
+            )
+        }
     };
 
     const list = (anchor) => (
@@ -135,10 +187,11 @@ const Navbar = () => {
                             <NavLinks onClick={() => handleHomePage(4)}>Syarat dan Ketentuan</NavLinks>
                         </NavItem>
                     </NavMenu>
-                    <NavBtn>
+                    {/* <NavBtn>
                         <NavBtnLinkMasuk to="/login"><SpanMasuk>Masuk</SpanMasuk></NavBtnLinkMasuk>
                         <NavBtnLinkDaftar to="/register">Daftar</NavBtnLinkDaftar>
-                    </NavBtn>
+                    </NavBtn> */}
+                    {authButton()}
                 </NavbarContainer>
             </Nav>
             <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>

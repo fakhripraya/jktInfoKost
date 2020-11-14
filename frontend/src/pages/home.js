@@ -10,6 +10,8 @@ import {
     unauthenticateUser
 } from '../services/redux'
 import { useSelector, useDispatch } from 'react-redux';
+import { trackPromise } from 'react-promise-tracker'
+import { RESTAPIDOMAIN } from '../config'
 
 function Home() {
     const dispatch = useDispatch();
@@ -25,27 +27,26 @@ function Home() {
     useEffect(() => {
         let source = axios.CancelToken.source()
         if (isLoggedIn === false) {
-            axios.get('http://localhost:5000/user/', {
-                cancelToken: source.token
-            })
-                .then(response => {
-                    if (response.data.user !== null) {
-                        const user = response.data.user;
-                        console.log(user)
-                        dispatch(authenticateUser({ user }));
-                    }
-                    else {
-                        console.log('unauthenticated')
-                        dispatch(unauthenticateUser);
-                    }
+            trackPromise(
+                axios.get(RESTAPIDOMAIN + '/user/', {
+                    cancelToken: source.token
                 })
-                .catch(error => {
-                    if (axios.isCancel(error)) {
-                        console.log('Request canceled', error.message);
-                    } else {
-                        console.log(error);
-                    }
-                });
+                    .then(response => {
+                        if (response.data.user !== null) {
+                            const user = response.data.user;
+                            dispatch(authenticateUser({ user }));
+                        }
+                        else {
+                            dispatch(unauthenticateUser());
+                        }
+                    })
+                    .catch(error => {
+                        if (axios.isCancel(error)) {
+                            console.log('Request canceled', error.message);
+                        } else {
+                            console.log(error);
+                        }
+                    }));
             return () => {
                 //when the component unmounts
                 console.log("component unmounted");
