@@ -49,8 +49,10 @@ const useStyles = makeStyles({
 
 const Navbar = () => {
     const isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
+    const isPemilik = useSelector(state => state.userDataReducer.isPemilik);
     const dispatch = useDispatch()
     const classes = useStyles();
+
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -102,11 +104,24 @@ const Navbar = () => {
 
     const authButton = () => {
         if (isLoggedIn) {
-            return (
-                <NavBtn>
-                    <NavBtnLinkDaftar onClick={() => handleLogout()}>Keluar</NavBtnLinkDaftar>
-                </NavBtn>
-            )
+            if (isPemilik) {
+                return (
+                    <NavBtn>
+                        <NavBtnLinkDaftar onClick={() => handleLogout()}>Dashboard</NavBtnLinkDaftar>
+                        <NavBtnLinkDaftar onClick={() => handleLogout()}>Keluar</NavBtnLinkDaftar>
+                    </NavBtn>
+                )
+            }
+            else {
+                return (
+                    <NavBtn>
+                        <NavBtnLinkMasuk onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik kost</SpanMasuk></NavBtnLinkMasuk>
+                        <NavBtnLinkDaftar onClick={() => handleLogout()}>Dashboard</NavBtnLinkDaftar>
+                        <NavBtnLinkDaftar onClick={() => handleLogout()}>Keluar</NavBtnLinkDaftar>
+                    </NavBtn>
+                )
+            }
+
         }
         else {
             return (

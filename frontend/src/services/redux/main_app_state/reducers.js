@@ -8,6 +8,7 @@ import {
 const userInitialState = {
     user: [],
     error: '',
+    isPemilik: '',
     isLoggedIn: false
 }
 
