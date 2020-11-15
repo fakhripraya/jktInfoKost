@@ -20,6 +20,7 @@ import {
     NavBtnLinkDaftar,
     NavBtnMobile,
     NavBtnLinkMobile,
+    NavBtnLinkMobileOutlined,
     DrawerWrapper
 } from './NavbarElements';
 import {
@@ -125,6 +126,37 @@ const Navbar = () => {
         }
     }
 
+    const authButtonMobile = () => {
+        if (isLoggedIn) {
+            if (isPemilik) {
+                return (
+                    <NavBtnMobile>
+                        <NavBtnLinkMobile onClick={() => handleLogout()}>Dashboard</NavBtnLinkMobile>
+                        <NavBtnLinkMobile onClick={() => handleLogout()}>Keluar</NavBtnLinkMobile>
+                    </NavBtnMobile>
+                )
+            }
+            else {
+                return (
+                    <NavBtnMobile>
+                        <NavBtnLinkMobileOutlined onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik kost</SpanMasuk></NavBtnLinkMobileOutlined>
+                        <NavBtnLinkMobile onClick={() => handleLogout()}>Dashboard</NavBtnLinkMobile>
+                        <NavBtnLinkMobile onClick={() => handleLogout()}>Keluar</NavBtnLinkMobile>
+                    </NavBtnMobile>
+                )
+            }
+
+        }
+        else {
+            return (
+                <NavBtnMobile>
+                    <NavBtnLinkMobile to="/login">Masuk</NavBtnLinkMobile>
+                    <NavBtnLinkMobile to="/register">Daftar</NavBtnLinkMobile>
+                </NavBtnMobile>
+            )
+        }
+    };
+
     const authButton = () => {
         if (isLoggedIn) {
             if (isPemilik) {
@@ -194,10 +226,7 @@ const Navbar = () => {
                 ))}
             </List>
             <Divider />
-            <NavBtnMobile>
-                <NavBtnLinkMobile to="/login">Masuk</NavBtnLinkMobile>
-                <NavBtnLinkMobile to="/register">Daftar</NavBtnLinkMobile>
-            </NavBtnMobile>
+            {authButtonMobile()}
         </DrawerWrapper>
     );
 

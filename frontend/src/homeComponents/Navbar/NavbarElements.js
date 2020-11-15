@@ -231,6 +231,9 @@ export const NavBtnMobile = styled.nav`
 `
 
 export const NavBtnLinkMobile = styled(Link)`
+    display: flex;
+    justify-content: center;
+    align-content: center;
     border-radius: 50px;
     background: #33c9ff;
     white-space: nowrap;
@@ -243,10 +246,38 @@ export const NavBtnLinkMobile = styled(Link)`
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     text-decoration: none;
-
+    width: 100%;
     &:hover{
         transition: all 0.2s ease-in-out;
         background: #fff;
+        color: #33c9ff;
+    }
+`
+
+export const NavBtnLinkMobileOutlined = styled(Link)`
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border-radius: 50px;
+    background: #ffffff;
+    white-space: nowrap;
+    padding: 10px 22px;
+    margin: 5px 5px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    border: solid 1px #33c9ff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    width: 100%;
+    &:hover{
+        & > ${SpanMasuk} {
+        color: #fff;
+    }
+    
+        transition: all 0.2s ease-in-out;
+        background: #33c9ff;
         color: #33c9ff;
     }
 `
