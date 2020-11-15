@@ -44,7 +44,7 @@ export const UpperNavRight = styled.nav`
 `
 
 export const UpperDisplayName = styled.p`
-    margin-left: 10px;
+    margin-right: 10px;
     font-size: 18px;
     font-weight: 600;
 `

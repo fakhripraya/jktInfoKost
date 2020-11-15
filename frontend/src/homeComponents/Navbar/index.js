@@ -114,10 +114,10 @@ const Navbar = () => {
                 <UpperNav>
                     <UpperNavRightContainer>
                         <UpperNavRight>
-                            <Avatar size={40} round={true} name="Foo Bar" />
                             <UpperDisplayName>
                                 {user.displayName}
                             </UpperDisplayName>
+                            <Avatar size={40} round={true} name={user.displayName} />
                         </UpperNavRight>
                     </UpperNavRightContainer>
                 </UpperNav>
@@ -182,11 +182,11 @@ const Navbar = () => {
                         <ListItemText>
                             {(() => {
                                 switch (index) {
-                                    case 0: return <a href="!#" onClick={() => handleHomePage(1)}>{text}</a>;
-                                    case 1: return <a href="!#" onClick={() => handleHomePage(2)}>{text}</a>;
-                                    case 2: return <a href="!#" onClick={() => handleHomePage(3)}>{text}</a>;
-                                    case 3: return <a href="!#" onClick={() => handleHomePage(4)}>{text}</a>;
-                                    default: return <a href="!#" onClick={() => handleHomePage(1)}>{text}</a>;
+                                    case 0: return <p onClick={() => handleHomePage(1)}>{text}</p>;
+                                    case 1: return <p onClick={() => handleHomePage(2)}>{text}</p>;
+                                    case 2: return <p onClick={() => handleHomePage(3)}>{text}</p>;
+                                    case 3: return <p onClick={() => handleHomePage(4)}>{text}</p>;
+                                    default: return <p onClick={() => handleHomePage(1)}>{text}</p>;
                                 }
                             })()}
                         </ListItemText>

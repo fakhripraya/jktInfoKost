@@ -14,6 +14,17 @@ export const BaseContainer = styled.div`
     @media screen and (max-width: 480px){
         transform: scale(0.6);
     }
+
+    @media screen and (max-height: 768px){
+        transform: scale(0.8);
+    }
+    
+    @media screen and (max-height: 600px){
+        transform: scale(0.6);
+    }
+    @media screen and (max-height: 400px){
+        transform: scale(0.4);
+    }
 `
 
 export const Background = styled.div`
