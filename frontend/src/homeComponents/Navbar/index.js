@@ -2,6 +2,10 @@ import React, { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaBars } from 'react-icons/fa'
 import {
+    UpperNav,
+    UpperNavRightContainer,
+    UpperNavRight,
+    UpperDisplayName,
     Nav,
     NavbarContainer,
     NavLogo,
@@ -37,6 +41,7 @@ import PolicyIcon from '@material-ui/icons/Policy';
 import { trackPromise } from 'react-promise-tracker'
 import axios from 'axios'
 import { RESTAPIDOMAIN } from '../../config'
+import Avatar from 'react-avatar';
 
 const useStyles = makeStyles({
     list: {
@@ -48,6 +53,7 @@ const useStyles = makeStyles({
 });
 
 const Navbar = () => {
+    const user = useSelector(state => state.userDataReducer.user);
     const isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
     const isPemilik = useSelector(state => state.userDataReducer.isPemilik);
     const dispatch = useDispatch()
@@ -101,6 +107,23 @@ const Navbar = () => {
 
         setState({ ...state, [anchor]: open });
     };
+
+    const upperNav = () => {
+        if (isLoggedIn) {
+            return (
+                <UpperNav>
+                    <UpperNavRightContainer>
+                        <UpperNavRight>
+                            <Avatar size={40} round={true} name="Foo Bar" />
+                            <UpperDisplayName>
+                                {user.displayName}
+                            </UpperDisplayName>
+                        </UpperNavRight>
+                    </UpperNavRightContainer>
+                </UpperNav>
+            )
+        }
+    }
 
     const authButton = () => {
         if (isLoggedIn) {
@@ -180,7 +203,8 @@ const Navbar = () => {
 
     return (
         <Fragment>
-            <Nav>
+            <Nav isLoggedIn={isLoggedIn}>
+                {upperNav()}
                 <NavbarContainer>
                     <NavLogo onClick={() => handleHomePage(0)} to='/'>
                         <NavLogoImg />
@@ -202,10 +226,6 @@ const Navbar = () => {
                             <NavLinks onClick={() => handleHomePage(4)}>Syarat dan Ketentuan</NavLinks>
                         </NavItem>
                     </NavMenu>
-                    {/* <NavBtn>
-                        <NavBtnLinkMasuk to="/login"><SpanMasuk>Masuk</SpanMasuk></NavBtnLinkMasuk>
-                        <NavBtnLinkDaftar to="/register">Daftar</NavBtnLinkDaftar>
-                    </NavBtn> */}
                     {authButton()}
                 </NavbarContainer>
             </Nav>

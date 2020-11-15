@@ -2,12 +2,67 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import LogoIcon from '../../images/Papi_Kost_3.png'
 
-export const Nav = styled.nav`
+/*---------------------------------------------------UPPER NAV---------------------------------------------------*/
+
+export const UpperNav = styled.nav`
     background: #fff;
-    height: 80px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 1rem;
+    top: 0;
+    z-index: 10;
+    border-bottom: solid 1.1px rgba(0,0,0,0.3);
+    width: 100%;
+    @media screen and (max-width: 960px) {
+        transition: 0.8s all ease;
+    }
+
+    @media screen and (max-width: 1260px){
+        display: none;
+    }
+`
+
+export const UpperNavRightContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    height: 50px;
+    z-index: 1;
+    width: 100%;
+    padding: 0 24px;
+    max-width: 2000px;
+`
+
+export const UpperNavRight = styled.nav`
+    display: flex;
+    align-items: center;
+
+    @media screen and (max-width: 1260px){
+        display: none;
+    }
+`
+
+export const UpperDisplayName = styled.p`
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: 600;
+`
+
+/*---------------------------------------------------END OF UPPER NAV---------------------------------------------------*/
+
+
+
+/*---------------------------------------------------LOWER NAV---------------------------------------------------*/
+
+export const Nav = styled.nav`
+    background: #fff;
+    /* height: 130px; */
+    height: ${({ isLoggedIn }) => (isLoggedIn ? '130px' : '80px')};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     font-size: 1rem;
     position: sticky;
     top: 0;
@@ -16,6 +71,10 @@ export const Nav = styled.nav`
 
     @media screen and (max-width: 960px) {
         transition: 0.8s all ease;
+    }
+
+    @media screen and (max-width: 1260px){
+        height: 80px;
     }
 `
 
@@ -191,3 +250,5 @@ export const NavBtnLinkMobile = styled(Link)`
         color: #33c9ff;
     }
 `
+
+/*---------------------------------------------------END OF LOWER NAV---------------------------------------------------*/

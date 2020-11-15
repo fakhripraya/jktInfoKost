@@ -32,8 +32,10 @@ function Home() {
                     cancelToken: source.token
                 })
                     .then(response => {
-                        if (response.data.user !== null) {
-                            const user = response.data.user;
+                        if (response.data.authUser !== null) {
+                            const user = {
+                                displayName: response.data.authUser.displayName
+                            };
                             dispatch(authenticateUser({ user }));
                         }
                         else {
