@@ -70,13 +70,13 @@ router.post('/verification', userExistCheck, (req, res) => {
                         host: "smtp.gmail.com",
                         port: 587,
                         auth: {
-                            user: "tissymobile@gmail.com",
-                            pass: "arisajah123"
+                            user: "<your business email>",
+                            pass: "<your secret password>"
                         }
                     });
 
                     const message = {
-                        from: 'tissymobile@gmail.com',
+                        from: '<email from>',
                         to: email,
                         subject: 'Verifikasi Akun Yang Anda Daftarkan',
                         html: emailTemplate
